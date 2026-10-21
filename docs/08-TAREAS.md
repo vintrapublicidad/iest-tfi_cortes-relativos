@@ -6,18 +6,18 @@
 - [x] Crear los recursos de marca en la carpeta marca/.
 - [x] Crear la estructura de carpetas.
 - [x] Configurar el proyecto Next.js.
-- [ ] Configurar el repositorio Git.
-- [ ] Configurar la base de datos.
+- [x] Configurar el repositorio Git.
+- [x] Configurar la base de datos.
 
 ## Etapa 2: Modelo de datos
 
-- [ ] Crear la tabla de clientes.
-- [ ] Crear la tabla de servicios.
-- [ ] Crear la tabla de peluqueros.
-- [ ] Crear la tabla de turnos.
-- [ ] Crear la tabla de lista de espera.
-- [ ] Definir las relaciones entre tablas.
-- [ ] Crear datos de prueba.
+- [x] Crear la tabla de clientes.
+- [x] Crear la tabla de servicios.
+- [x] Crear la tabla de peluqueros.
+- [x] Crear la tabla de turnos.
+- [x] Crear la tabla de lista de espera.
+- [x] Definir las relaciones entre tablas.
+- [x] Crear datos de prueba.
 
 ## Etapa 3: Interfaz
 
