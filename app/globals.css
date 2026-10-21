@@ -1,0 +1,53 @@
+/* app/globals.css */
+:root {
+  --color-principal: #2C3E50;          /* Azul Pizarra */
+  --color-acento: #F1C40F;             /* Amarillo Einstein */
+  --color-fondo: #FFFFFF;              /* Blanco Nube */
+  --color-fondo-secundario: #ECF0F1;   /* Gris Cálculo */
+  --radio-borde: 8px;
+  --fuente-titulos: var(--font-bangers), cursive, sans-serif;
+  --fuente-cuerpo: var(--font-poppins), system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  min-height: 100vh;
+  background-color: var(--color-fondo);
+  color: var(--color-principal);
+  font-family: var(--fuente-cuerpo);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--fuente-titulos);
+  color: var(--color-principal);
+  letter-spacing: 0.5px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--fuente-cuerpo);
+  cursor: pointer;
+  border: none;
+  border-radius: var(--radio-borde);
+  transition: all 0.2s ease-in-out;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-acento);
+  outline-offset: 2px;
+}
