@@ -7,6 +7,15 @@
   --radio-borde: 8px;
   --fuente-titulos: var(--font-bangers), cursive, sans-serif;
   --fuente-cuerpo: var(--font-poppins), system-ui, -apple-system, sans-serif;
+
+  /* Espaciado adaptable */
+  --espaciado-s: 0.5rem;
+  --espaciado-m: 1rem;
+  --espaciado-l: 1.5rem;
+  --espaciado-xl: 2rem;
+
+  /* Tamaños de toque mínimos (WCAG 2.5.5) */
+  --touch-min: 48px;
 }
 
 * {
@@ -15,15 +24,36 @@
   margin: 0;
 }
 
-html,
+html {
+  min-height: 100%;
+}
+
 body {
   max-width: 100vw;
   min-height: 100vh;
-  background-color: var(--color-fondo);
   color: var(--color-principal);
   font-family: var(--fuente-cuerpo);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Evita que el zoom en inputs cause problemas en iOS */
+  -webkit-text-size-adjust: 100%;
+
+  /* Imagen de fondo de marca adaptada */
+  background-color: #F8FAFC;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.93)),
+    url('/img/background.png');
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+@media (min-width: 768px) {
+  body {
+    background-size: 100% auto;
+    background-attachment: scroll;
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -37,17 +67,264 @@ a {
   text-decoration: none;
 }
 
+/* Botones con tamaño mínimo táctil */
 button {
   font-family: var(--fuente-cuerpo);
   cursor: pointer;
   border: none;
   border-radius: var(--radio-borde);
   transition: all 0.2s ease-in-out;
+  min-height: var(--touch-min);
+}
+
+/* Inputs grandes para móvil — evita zoom automático en iOS */
+input,
+select,
+textarea {
+  font-family: var(--fuente-cuerpo);
+  font-size: 1rem; /* mínimo 16px para evitar zoom en iOS */
+  border-radius: var(--radio-borde);
+  min-height: var(--touch-min);
 }
 
 button:focus-visible,
 input:focus-visible,
-select:focus-visible {
-  outline: 2px solid var(--color-acento);
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--color-acento);
   outline-offset: 2px;
+}
+
+/* ─── Scroll horizontal suave para el selector de fechas ─── */
+.scroll-horizontal {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-acento) var(--color-fondo-secundario);
+}
+
+.scroll-horizontal > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* ─── Barra de pasos del flujo de reserva ─── */
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  padding: 0.5rem 1rem;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.step-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border: 2px solid #d1d8e0;
+  background: var(--color-fondo);
+  color: #8395a7;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+}
+
+.step-circle.active {
+  background: var(--color-acento);
+  border-color: var(--color-acento);
+  color: var(--color-principal);
+}
+
+.step-circle.done {
+  background: var(--color-principal);
+  border-color: var(--color-principal);
+  color: white;
+}
+
+.step-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #8395a7;
+  margin-top: 0.2rem;
+  white-space: nowrap;
+}
+
+.step-label.active {
+  color: var(--color-principal);
+}
+
+.step-connector {
+  height: 2px;
+  width: 24px;
+  background: #d1d8e0;
+  flex-shrink: 0;
+  transition: background 0.25s ease;
+}
+
+.step-connector.done {
+  background: var(--color-principal);
+}
+
+/* ─── Grillas responsivas ─── */
+.grid-servicios {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+@media (max-width: 480px) {
+  .grid-servicios {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 720px) {
+  .grid-servicios {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ─── Grid horarios ─── */
+.grid-horarios {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+@media (min-width: 480px) {
+  .grid-horarios {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media (min-width: 720px) {
+  .grid-horarios {
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+
+/* ─── Tarjeta de turno ─── */
+.tarjeta-turno {
+  background: var(--color-fondo);
+  border: 1px solid #d1d8e0;
+  border-radius: var(--radio-borde);
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.06);
+}
+
+/* ─── Botón principal ─── */
+.btn-primario {
+  display: block;
+  width: 100%;
+  background-color: var(--color-acento);
+  color: var(--color-principal);
+  font-weight: 700;
+  font-size: 1.05rem;
+  padding: 0.9rem 1.5rem;
+  border-radius: var(--radio-borde);
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  transition: filter 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 4px 14px rgba(241, 196, 15, 0.35);
+  min-height: var(--touch-min);
+}
+
+.btn-primario:hover:not(:disabled) {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.btn-primario:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-primario:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ─── Botón secundario ─── */
+.btn-secundario {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-fondo-secundario);
+  color: var(--color-principal);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--radio-borde);
+  border: 1px solid #d1d8e0;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  min-height: var(--touch-min);
+}
+
+.btn-secundario:hover {
+  background-color: #dfe4e8;
+}
+
+/* ─── Aviso ─── */
+.aviso {
+  background-color: var(--color-fondo-secundario);
+  border-left: 4px solid var(--color-acento);
+  padding: 1rem 1.25rem;
+  border-radius: var(--radio-borde);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--color-principal);
+}
+
+/* ─── Mensaje de error ─── */
+.error-msg {
+  background: #ffeaa7;
+  border-left: 4px solid #e17055;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  color: #d63031;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+/* ─── Label de campo ─── */
+.campo-label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.35rem;
+  color: var(--color-principal);
+}
+
+/* ─── Input de campo ─── */
+.campo-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1.5px solid #cbd5e1;
+  border-radius: var(--radio-borde);
+  font-size: 1rem;
+  transition: border-color 0.2s;
+  background: var(--color-fondo);
+  color: var(--color-principal);
+}
+
+.campo-input:focus {
+  border-color: var(--color-acento);
+  outline: none;
 }
