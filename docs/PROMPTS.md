@@ -33,7 +33,7 @@
 
 A continuación se documentan tres errores reales y críticos cometidos por los agentes de IA durante el proyecto, evidenciando el rol fundamental de la supervisión humana:
 
-### ⚠️ Error 1: Corrupción de Codificación UTF-8 (Mojibake) en Títulos y Acentos
+### Error 1: Corrupción de Codificación UTF-8 (Mojibake) en Títulos y Acentos
 * **Problema Generado por la IA**:
   Al intentar modificar archivos JSX mediante comandos automatizados de PowerShell (`Set-Content`), la IA guardó los archivos en codificación ANSI / UTF-16, provocando que caracteres como `á`, `é`, `í`, `ó`, `ú`, `ñ` y comillas se transformaran en símbolos corruptos (mojibake: ej. `gestin`, `No se encontraron turnos`, etc.), rompiendo los títulos visuales de la aplicación.
 * **Detección Humana**:
@@ -43,7 +43,7 @@ A continuación se documentan tres errores reales y críticos cometidos por los 
 
 ---
 
-### ⚠️ Error 2: Pérdida de Reactividad al Modificar Nombres de Peluqueros
+### Error 2: Pérdida de Reactividad al Modificar Nombres de Peluqueros
 * **Problema Generado por la IA**:
   El backend permitía editar los nombres de los peluqueros desde el panel de administración, pero la IA había hardcodeado una lista estática de peluqueros en memoria que no sincronizaba el estado con la selección de turnos del cliente (`/turnos`), provocando que los cambios de barberos no se vieran reflejados al querer reservar.
 * **Detección Humana**:
@@ -53,7 +53,7 @@ A continuación se documentan tres errores reales y críticos cometidos por los 
 
 ---
 
-### ⚠️ Error 3: Cálculo Insuficiente de Colisión Horaria (Falta de Buffer Dinámico)
+### Error 3: Cálculo Insuficiente de Colisión Horaria (Falta de Buffer Dinámico)
 * **Problema Generado por la IA**:
   Inicialmente, la IA validaba colisiones de turnos con un umbral estático de 20 minutos (`Math.abs(existingTime - targetDate.getTime()) < 20 * 60 * 1000`), sin considerar que un corte puede durar 45 o 60 minutos, ni contemplar el tiempo muerto necesario entre clientes sucesivos.
 * **Detección Humana**:

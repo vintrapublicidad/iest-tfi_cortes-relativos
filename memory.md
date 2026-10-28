@@ -33,7 +33,7 @@ Este documento condensa el contexto acumulado, las decisiones de arquitectura de
 
 ---
 
-## 🏗️ Pila Tecnológica y Arquitectura
+## Pila Tecnológica y Arquitectura
 
 * **Framework**: Next.js 16.4.1 (App Router + Turbopack).
 * **Estilos**: Vanilla CSS puro en `app/globals.css` (con sistema de variables de diseño y reglas de microinteracciones Bexa).
@@ -44,7 +44,7 @@ Este documento condensa el contexto acumulado, las decisiones de arquitectura de
 
 ---
 
-## 📋 Comandos del Arnés de IA
+## Comandos del Arnés de IA
 * `/spec`: Generación y revisión de especificaciones bajo notación EARS.
 * `/clarificar`: Solicitud interactiva de resolución de ambigüedades de negocio con el usuario antes de codificar.
 * `/verificar`: Ejecución de comprobaciones (validaciones, pruebas automatizadas y compilación sin errores).
