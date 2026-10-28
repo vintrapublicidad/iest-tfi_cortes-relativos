@@ -80,6 +80,22 @@ export default function Home() {
         </div>
       </nav>
 
+      {/* ── Marquee Editorial Continuo (Bexa Motion) ── */}
+      <aside className="ticker-container" aria-label="Información destacada">
+        <div className="ticker-track">
+          <div className="ticker-item"><span className="ticker-dot"></span> ATENCIÓN PERSONALIZADA EN TINOGASTA</div>
+          <div className="ticker-item"><span className="ticker-dot"></span> DISPONIBILIDAD EN TIEMPO REAL</div>
+          <div className="ticker-item"><span className="ticker-dot"></span> CONFIRMACIÓN INSTANTÁNEA POR WHATSAPP</div>
+          <div className="ticker-item"><span className="ticker-dot"></span> EXPERTOS EN ESTILO & BARBERÍA</div>
+          {/* Duplicado para loop infinito fluido */}
+          <div className="ticker-item"><span className="ticker-dot"></span> ATENCIÓN PERSONALIZADA EN TINOGASTA</div>
+          <div className="ticker-item"><span className="ticker-dot"></span> DISPONIBILIDAD EN TIEMPO REAL</div>
+          <div className="ticker-item"><span className="ticker-dot"></span> CONFIRMACIÓN INSTANTÁNEA POR WHATSAPP</div>
+          <div className="ticker-item"><span className="ticker-dot"></span> EXPERTOS EN ESTILO & BARBERÍA</div>
+        </div>
+      </aside>
+
+
       {/* ── Hero ── */}
       <header
         style={{
@@ -93,14 +109,16 @@ export default function Home() {
           width: '100%',
         }}
       >
-        <Image
-          src="/img/logo.svg"
-          alt="Logo de Cortes Relativos con ilustración inspirada en Einstein y elementos de peluquería"
-          width={200}
-          height={200}
-          priority
-          style={{ width: '160px', height: 'auto', marginBottom: '1.25rem' }}
-        />
+        <div className="logo-lightning-wrapper">
+          <Image
+            src="/img/logo.svg"
+            alt="Logo de Cortes Relativos con ilustración inspirada en Einstein y elementos de peluquería"
+            width={200}
+            height={200}
+            priority
+            style={{ width: '160px', height: 'auto', display: 'block' }}
+          />
+        </div>
         <h1
           style={{
             fontSize: 'clamp(2rem, 8vw, 3rem)',
@@ -291,7 +309,7 @@ export default function Home() {
           &quot;Tu estilo, relativamente perfecto.&quot;
         </p>
         <p style={{ fontSize: '0.82rem', color: '#cbd5e1', marginTop: '0.75rem' }}>
-          Tinogasta, Catamarca • Lunes a Sábados de 09:00 a 20:00 hs
+          Tinogasta, Catamarca • Martes a Sábados de 09:00 a 13:00 y 15:00 a 23:00 hs
         </p>
         <p style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: '0.5rem' }}>
           * Los precios indicados son provisorios ($0) según documentación. •{' '}

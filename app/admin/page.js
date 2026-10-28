@@ -16,16 +16,117 @@ export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
   const [authError, setAuthError] = useState('');
-
-  const [activeTab, setActiveTab] = useState('turnos'); // 'turnos' | 'metricas' | 'espera'
+  const [loading, setLoading] = useState(false);
   const [appointments, setAppointments] = useState([]);
   const [waitlist, setWaitlist] = useState([]);
   const [metrics, setMetrics] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState('turnos');
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('todos');
-  const [updatingId, setUpdatingId] = useState(null);
   const [statusMsg, setStatusMsg] = useState('');
+  const [updatingId, setUpdatingId] = useState(null);
+  const [barbers, setBarbers] = useState([]);
+
+  const [companyWhatsApp, setCompanyWhatsApp] = useState('');
+  const [newBarber, setNewBarber] = useState({ nombre: '', especialidad: '', whatsapp: '' });
+  const [editBarberId, setEditBarberId] = useState(null);
+  const [editBarberData, setEditBarberData] = useState({ nombre: '', especialidad: '', whatsapp: '' });
+
+  // Fetch company WhatsApp number
+  async function fetchCompanyNumber(authToken) {
+    try {
+      const res = await fetch('/api/company', { headers: { Authorization: `Bearer ${authToken}` } });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setCompanyWhatsApp(data.number);
+      }
+    } catch { }
+  }
+
+
+
+  // Handlers for barber CRUD
+  async function handleAddBarber() {
+    if (!newBarber.nombre || !newBarber.whatsapp) return alert('Nombre y WhatsApp son obligatorios');
+    try {
+      const res = await fetch('/api/barbers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify(newBarber),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setBarbers(prev => [...prev, data.barber]);
+        setNewBarber({ nombre: '', especialidad: '', whatsapp: '' });
+        setStatusMsg('Barbero agregado');
+      } else {
+        alert(data.error || 'Error al crear barbero');
+      }
+    } catch { alert('Error de red'); }
+  }
+
+  async function handleEditBarber(id) {
+    const barber = barbers.find(b => b.id === id);
+    if (barber) {
+      setEditBarberId(id);
+      setEditBarberData({ nombre: barber.nombre, especialidad: barber.especialidad, whatsapp: barber.whatsapp });
+    }
+  }
+
+  async function submitEditBarber() {
+    try {
+      const res = await fetch('/api/barbers', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ id: editBarberId, ...editBarberData }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setBarbers(prev => prev.map(b => (b.id === editBarberId ? data.barber : b)));
+        setEditBarberId(null);
+        setStatusMsg('Barbero actualizado');
+      } else {
+        alert(data.error || 'Error al actualizar');
+      }
+    } catch { alert('Error de red'); }
+  }
+
+  async function handleDeleteBarber(id) {
+    if (!confirm('¿Eliminar este barbero?')) return;
+    try {
+      const res = await fetch('/api/barbers', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ id }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setBarbers(prev => prev.filter(b => b.id !== id));
+        setStatusMsg('Barbero eliminado');
+      } else {
+        alert(data.error || 'Error al eliminar');
+      }
+    } catch { alert('Error de red'); }
+  }
+
+  async function handleCompanySave() {
+    if (!companyWhatsApp) return alert('Número es obligatorio');
+    try {
+      const res = await fetch('/api/company', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ number: companyWhatsApp }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setStatusMsg('Número de empresa actualizado');
+      } else {
+        alert(data.error || 'Error al guardar');
+      }
+    } catch { alert('Error de red'); }
+  }
+
+  
 
   // Check saved token on mount
   useEffect(() => {
@@ -50,6 +151,8 @@ export default function AdminPage() {
         setWaitlist(data.waitlist || []);
         setMetrics(data.metrics || null);
         localStorage.setItem('cortes_admin_token', authToken);
+        fetchBarbers(authToken);
+        fetchCompanyNumber(authToken);
       } else {
         setIsAuthenticated(false);
         setAuthError(data.error || 'Clave de acceso incorrecta.');
@@ -74,6 +177,17 @@ export default function AdminPage() {
     setIsAuthenticated(false);
     setToken('');
     setPasswordInput('');
+  }
+  async function fetchBarbers(authToken) {
+    try {
+      const res = await fetch('/api/barbers', { headers: { Authorization: `Bearer ${authToken}` } });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setBarbers(data.barbers || []);
+      }
+    } catch {
+      // ignore errors
+    }
   }
 
   async function handleStatusChange(id, nuevoEstado) {
@@ -341,6 +455,20 @@ export default function AdminPage() {
           >
             ⏳ Lista de Espera ({waitlist.length})
           </button>
+          <button
+            onClick={() => setActiveTab('barberos')}
+            style={{
+              padding: '0.5rem 1rem',
+              borderRadius: 'var(--radio-borde)',
+              backgroundColor: activeTab === 'barberos' ? 'var(--color-principal)' : 'transparent',
+              color: activeTab === 'barberos' ? 'white' : 'var(--color-principal)',
+              fontWeight: '700',
+              fontSize: '0.88rem',
+            }}
+          >
+            💈 Barberos ({barbers.length})
+          </button>
+          <button onClick={() => setActiveTab('config')} style={{ padding: '0.5rem 1rem', borderRadius: 'var(--radio-borde)', backgroundColor: activeTab === 'config' ? 'var(--color-principal)' : 'transparent', color: activeTab === 'config' ? 'white' : 'var(--color-principal)', fontWeight: '700', fontSize: '0.88rem' }}>Configuración WhatsApp</button>
         </div>
       </nav>
 
@@ -436,12 +564,12 @@ export default function AdminPage() {
                   const fechaFormatted = isNaN(fechaObj.getTime())
                     ? apt.fecha_hora
                     : fechaObj.toLocaleDateString('es-AR', {
-                        weekday: 'short',
-                        day: '2-digit',
-                        month: 'short',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      });
+                      weekday: 'short',
+                      day: '2-digit',
+                      month: 'short',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    });
 
                   return (
                     <div
@@ -516,6 +644,26 @@ export default function AdminPage() {
                         <div>
                           <span style={{ color: '#64748b', fontSize: '0.75rem', display: 'block' }}>Peluquero</span>
                           <strong>💈 {apt.peluquero_nombre || 'Cualquiera'}</strong>
+                          {apt.peluquero_whatsapp && (
+                            <a
+                              href={`https://wa.me/${apt.peluquero_whatsapp.replace(/\\D/g, '')}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                backgroundColor: '#25D366',
+                                color: 'white',
+                                padding: '0.4rem 0.75rem',
+                                fontSize: '0.8rem',
+                                fontWeight: '600',
+                                borderRadius: 'var(--radio-borde)',
+                                marginTop: '0.4rem',
+                              }}
+                            >
+                              📞 WhatsApp
+                            </a>
+                          )}
                         </div>
                         <div>
                           <span style={{ color: '#64748b', fontSize: '0.75rem', display: 'block' }}>Fecha y Hora</span>
@@ -615,6 +763,70 @@ export default function AdminPage() {
                 })}
               </div>
             )}
+          </section>
+        )}
+
+
+        {/* Barberos tab */}
+        {activeTab === 'barberos' && (
+          <section>
+            <h2 style={{ fontSize: '1.2rem', marginBottom: '1rem', color: 'var(--color-principal)' }}>Barberos</h2>
+            {/* Add new barber form */}
+            <div className="tarjeta-turno" style={{ backgroundColor: 'rgba(255,255,255,0.95)', padding: '1rem', marginBottom: '1rem' }}>
+              <h3 style={{ marginBottom: '0.5rem' }}>Agregar Barbero</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <input placeholder="Nombre" value={newBarber.nombre} onChange={e => setNewBarber({ ...newBarber, nombre: e.target.value })} className="campo-input" />
+                <input placeholder="Especialidad" value={newBarber.especialidad} onChange={e => setNewBarber({ ...newBarber, especialidad: e.target.value })} className="campo-input" />
+                <input placeholder="WhatsApp" value={newBarber.whatsapp} onChange={e => setNewBarber({ ...newBarber, whatsapp: e.target.value })} className="campo-input" />
+                <button onClick={handleAddBarber} className="btn-primario" style={{ alignSelf: 'flex-start' }}>Agregar</button>
+              </div>
+            </div>
+            {/* List existing barbers */}
+            {barbers.map(b => (
+              <div key={b.id} style={{ marginBottom: '0.75rem' }}>
+                {editBarberId === b.id ? (
+                  <div className="tarjeta-turno" style={{ backgroundColor: 'rgba(255,255,255,0.95)', padding: '1rem' }}>
+                    <h4>Editar Barbero</h4>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                      <input placeholder="Nombre" value={editBarberData.nombre} onChange={e => setEditBarberData({ ...editBarberData, nombre: e.target.value })} className="campo-input" />
+                      <input placeholder="Especialidad" value={editBarberData.especialidad} onChange={e => setEditBarberData({ ...editBarberData, especialidad: e.target.value })} className="campo-input" />
+                      <input placeholder="WhatsApp" value={editBarberData.whatsapp} onChange={e => setEditBarberData({ ...editBarberData, whatsapp: e.target.value })} className="campo-input" />
+                      <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <button onClick={submitEditBarber} className="btn-primario">Guardar</button>
+                        <button onClick={() => setEditBarberId(null)} className="btn-secundario">Cancelar</button>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="tarjeta-turno" style={{ backgroundColor: 'rgba(255,255,255,0.95)', padding: '1rem' }}>
+                    <strong style={{ fontSize: '1rem', color: 'var(--color-principal)' }}>💈 {b.nombre}</strong>
+                    <div style={{ fontSize: '0.85rem', color: '#475569' }}>{b.especialidad}</div>
+                    {b.whatsapp && (
+                      <a href={`https://wa.me/${b.whatsapp.replace(/\\D/g, '')}`} target="_blank" rel="noreferrer"
+                        style={{ display: 'inline-flex', alignItems: 'center', backgroundColor: '#25D366', color: 'white', padding: '0.4rem 0.75rem', fontSize: '0.8rem', fontWeight: '600', borderRadius: 'var(--radio-borde)', marginTop: '0.4rem' }}>
+                        📞 WhatsApp
+                      </a>
+                    )}
+                    <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem' }}>
+                      <button onClick={() => handleEditBarber(b.id)} className="btn-primario" style={{ fontSize: '0.75rem' }}>Editar</button>
+                      <button onClick={() => handleDeleteBarber(b.id)} className="btn-secundario" style={{ fontSize: '0.75rem' }}>Eliminar</button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </section>
+        )}
+
+        {/* Config tab */}
+        {activeTab === 'config' && (
+          <section>
+            <h2 style={{ fontSize: '1.2rem', marginBottom: '1rem', color: 'var(--color-principal)' }}>Configuración de WhatsApp</h2>
+            <div className="tarjeta-turno" style={{ backgroundColor: 'rgba(255,255,255,0.95)', padding: '1rem' }}>
+              <label style={{ display: 'block', marginBottom: '0.3rem' }}>Número de WhatsApp de la empresa</label>
+              <input placeholder="+549XXXXXXXXX" value={companyWhatsApp} onChange={e => setCompanyWhatsApp(e.target.value)} className="campo-input" />
+              <button onClick={handleCompanySave} className="btn-primario" style={{ marginTop: '0.5rem' }}>Guardar</button>
+            </div>
           </section>
         )}
 
@@ -765,3 +977,6 @@ export default function AdminPage() {
     </div>
   );
 }
+
+
+

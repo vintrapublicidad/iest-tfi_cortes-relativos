@@ -315,6 +315,7 @@ export default function TurnosPage() {
                   onSelectTime={(t) => setSelectedTime(t)}
                   bookedAppointments={appointments}
                   selectedBarberId={selectedBarberId}
+                  serviceDuration={selectedService?.duracion_minutos || 30}
                 />
               </section>
             )}

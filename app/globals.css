@@ -39,9 +39,9 @@ body {
   -webkit-text-size-adjust: 100%;
 
   /* Imagen de fondo de marca adaptada */
-  background-color: #F8FAFC;
+  background-color: #2C3E50;
   background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.93)),
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.65) 0%, rgba(44, 62, 80, 0.70) 100%),
     url('/img/background.png');
   background-repeat: no-repeat;
   background-position: center top;
@@ -327,4 +327,230 @@ textarea:focus-visible {
 .campo-input:focus {
   border-color: var(--color-acento);
   outline: none;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   BEXA MOTION & MOBILE SYSTEM — Cortes Relativos
+   Physics: Spring micro-interactions, hardware-accelerated loops
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── 1. Barber Pole Kinetic Shimmer (Primary CTA) ─── */
+.btn-kinetic {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(115deg, #F1C40F 0%, #F1C40F 40%, #FFF9C4 50%, #F1C40F 60%, #F1C40F 100%) !important;
+  background-size: 250% 100% !important;
+  animation: barberKineticBeam 3.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  box-shadow: 0 4px 18px rgba(241, 196, 15, 0.42), 0 2px 4px rgba(44, 62, 80, 0.08) !important;
+  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.28s ease !important;
+  will-change: transform, background-position;
+}
+
+@keyframes barberKineticBeam {
+  0% {
+    background-position: 200% 0;
+  }
+  35%, 100% {
+    background-position: -50% 0;
+  }
+}
+
+.btn-kinetic:active {
+  transform: scale(0.96) translateY(1px) !important;
+  box-shadow: 0 2px 8px rgba(241, 196, 15, 0.3) !important;
+}
+
+/* ─── 2. Physics-Grade Interactive Cards (Squish & Pop) ─── */
+.tarjeta-tactil {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease,
+              background-color 0.2s ease;
+  will-change: transform, box-shadow;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tarjeta-tactil:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -4px rgba(44, 62, 80, 0.12);
+}
+
+.tarjeta-tactil:active {
+  transform: scale(0.955) !important;
+  transition-duration: 0.1s !important;
+}
+
+/* ─── 3. Ticker Infinito Retro-Editorial de Barbería ─── */
+.ticker-container {
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--color-principal);
+  color: #F8FAFC;
+  padding: 0.7rem 0;
+  border-top: 2px solid var(--color-acento);
+  border-bottom: 2px solid var(--color-acento);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);
+  white-space: nowrap;
+  display: flex;
+  user-select: none;
+}
+
+.ticker-track {
+  display: inline-flex;
+  gap: 2.5rem;
+  animation: tickerSlide 24s linear infinite;
+  will-change: transform;
+}
+
+.ticker-item {
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ticker-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-acento);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--color-acento);
+}
+
+@keyframes tickerSlide {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* ─── 4. Liquid Stepper Progress & Pulse ─── */
+.step-circle.active {
+  animation: stepAura 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+@keyframes stepAura {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(241, 196, 15, 0);
+  }
+}
+
+.step-connector.done {
+  position: relative;
+  background: var(--color-principal);
+  animation: liquidConnector 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes liquidConnector {
+  from {
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+  to {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+}
+
+/* ─── 5. WCAG & Bexa: Respeto estricto a reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  .btn-kinetic,
+  .ticker-track,
+  .step-circle.active,
+  .step-connector.done {
+    animation: none !important;
+  }
+  .tarjeta-tactil {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* ─── 6. Rayo Eléctrico Perimetral en el Logo (Electric Border Beam) ─── */
+.logo-lightning-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 50%;
+  margin-bottom: 1.25rem;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 55%, rgba(241, 196, 15, 0.15) 100%);
+  box-shadow: 0 10px 30px -5px rgba(44, 62, 80, 0.25);
+  isolation: isolate;
+}
+
+/* El haz/rayo que orbita por el borde */
+.logo-lightning-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  padding: 3px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 60deg,
+    #F1C40F 120deg,
+    #FFFFFF 140deg,
+    #F1C40F 160deg,
+    transparent 220deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: lightningOrbit 2.8s linear infinite;
+  filter: drop-shadow(0 0 6px #F1C40F) drop-shadow(0 0 12px rgba(241, 196, 15, 0.8));
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* Resplandor eléctrico ambiental */
+.logo-lightning-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(241, 196, 15, 0.3) 0%, transparent 70%);
+  animation: lightningPulse 2.8s ease-in-out infinite;
+  z-index: -1;
+  pointer-events: none;
+}
+
+@keyframes lightningOrbit {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes lightningPulse {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-lightning-wrapper::before,
+  .logo-lightning-wrapper::after {
+    animation: none !important;
+  }
 }

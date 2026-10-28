@@ -2,16 +2,34 @@
 
 import { useMemo } from 'react';
 
-const OPERATING_HOURS = [
-  '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
-  '12:00', '12:30', '14:00', '14:30', '15:00', '15:30',
-  '16:00', '16:30', '17:00', '17:30', '18:00', '18:30',
-  '19:00', '19:30'
+/**
+ * Horarios de atención:
+ * Turno Mañana: 09:00 a 13:00 (último turno inicia 12:30 para finalizar 13:00)
+ * Turno Tarde/Noche: 15:00 a 23:00 (último turno inicia 22:30 para finalizar 23:00)
+ * Intervalos de 30 minutos (15 min de margen/buffer entre servicios asegurado dinámicamente)
+ */
+export const OPERATING_HOURS = [
+  // Turno mañana: 09:00 a 13:00
+  '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
+  // Turno tarde: 15:00 a 23:00
+  '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30',
+  '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30'
 ];
+
+export const BUFFER_MINUTES = 15; // Margen de seguridad entre turnos por demoras
+
+/**
+ * Convierte "HH:mm" a minutos desde las 00:00
+ */
+function timeToMinutes(timeStr) {
+  const [h, m] = timeStr.split(':').map(Number);
+  return h * 60 + m;
+}
 
 /**
  * Calendar and time slot picker.
- * Optimizado para móvil: scroll-snap horizontal en fechas, botones de horarios grandes.
+ * Optimizado para móvil: scroll-snap horizontal en fechas, botones de horarios táctiles grandes.
+ * Días de atención: Martes a Sábados (Domingos y Lunes cerrado).
  */
 export default function Calendario({
   selectedDate,
@@ -19,7 +37,8 @@ export default function Calendario({
   selectedTime,
   onSelectTime,
   bookedAppointments = [],
-  selectedBarberId = null
+  selectedBarberId = null,
+  serviceDuration = 30
 }) {
   // Genera los próximos 14 días
   const availableDates = useMemo(() => {
@@ -32,33 +51,62 @@ export default function Calendario({
       const dayName = d.toLocaleDateString('es-AR', { weekday: 'short' });
       const dayNumber = d.getDate();
       const monthName = d.toLocaleDateString('es-AR', { month: 'short' });
+      const dayOfWeek = d.getDay(); // 0 = Domingo, 1 = Lunes, 2 = Martes, ..., 6 = Sábado
+      const isClosed = dayOfWeek === 0 || dayOfWeek === 1; // Cerrado Domingo y Lunes
+
       dates.push({
         iso: isoStr,
         dayName,
         dayNumber,
         monthName,
-        isSunday: d.getDay() === 0,
+        isClosed,
       });
     }
     return dates;
   }, []);
 
-  // Estado de cada horario para la fecha seleccionada
+  // Estado y disponibilidad de cada horario para la fecha seleccionada
   const timeSlots = useMemo(() => {
     if (!selectedDate) return [];
+    
+    // Si la fecha elegida cae en día cerrado (Domingo o Lunes), no hay turnos
+    const [year, month, day] = selectedDate.split('-').map(Number);
+    const dateObj = new Date(year, month - 1, day);
+    if (dateObj.getDay() === 0 || dateObj.getDay() === 1) {
+      return [];
+    }
+
     const now = new Date();
+    const duration = serviceDuration || 30;
+
     return OPERATING_HOURS.map((timeStr) => {
       const slotDateTime = new Date(`${selectedDate}T${timeStr}:00`);
       const diffHours = (slotDateTime.getTime() - now.getTime()) / (1000 * 60 * 60);
       const isTooSoon = diffHours < 10;
+
+      const slotStartMinutes = timeToMinutes(timeStr);
+      // El bloque reservado incluye la duración del corte + ventana de 15 min de amortiguación
+      const slotTotalEndMinutes = slotStartMinutes + duration + BUFFER_MINUTES;
+
+      // Verificar si hay conflicto con algún turno existente
       const isBooked = bookedAppointments.some((apt) => {
         if (apt.estado === 'cancelado' || apt.estado === 'liberado') return false;
         if (selectedBarberId && apt.peluquero_id && apt.peluquero_id !== selectedBarberId) return false;
+
         const aptTime = new Date(apt.fecha_hora);
         const aptDateStr = aptTime.toISOString().split('T')[0];
+        if (aptDateStr !== selectedDate) return false;
+
         const aptHourStr = aptTime.toTimeString().slice(0, 5);
-        return aptDateStr === selectedDate && aptHourStr === timeStr;
+        const aptStartMinutes = timeToMinutes(aptHourStr);
+        const aptDuration = apt.duracion_minutos || 30;
+        const aptTotalEndMinutes = aptStartMinutes + aptDuration + BUFFER_MINUTES;
+
+        // Hay solapamiento si los intervalos [slotStart, slotTotalEnd) y [aptStart, aptTotalEnd) se superponen
+        const overlap = slotStartMinutes < aptTotalEndMinutes && slotTotalEndMinutes > aptStartMinutes;
+        return overlap;
       });
+
       return {
         time: timeStr,
         isTooSoon,
@@ -66,15 +114,15 @@ export default function Calendario({
         isAvailable: !isTooSoon && !isBooked,
       };
     });
-  }, [selectedDate, bookedAppointments, selectedBarberId]);
+  }, [selectedDate, bookedAppointments, selectedBarberId, serviceDuration]);
 
   const availableCount = timeSlots.filter((s) => s.isAvailable).length;
 
   return (
     <div>
-      {/* Aviso de anticipación */}
+      {/* Aviso de anticipación y franja */}
       <div className="aviso" style={{ marginBottom: '1.25rem', fontSize: '0.85rem' }}>
-        ℹ️ Los turnos requieren al menos <strong>10 horas de anticipación</strong>.
+        ℹ️ Atención de <strong>Martes a Sábados (09:00 a 13:00 y 15:00 a 23:00 hs)</strong> con <strong>15 min de margen sanitario y de descanso</strong> entre cortes. Mínimo <strong>10 horas de anticipación</strong>.
       </div>
 
       {/* ── Selector de fecha: scroll horizontal con scroll-snap ── */}
@@ -90,8 +138,9 @@ export default function Calendario({
                 key={item.iso}
                 type="button"
                 role="option"
+                disabled={item.isClosed}
                 aria-selected={isSelected}
-                onClick={() => onSelectDate(item.iso)}
+                onClick={() => !item.isClosed && onSelectDate(item.iso)}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
@@ -105,14 +154,17 @@ export default function Calendario({
                     : '1px solid #d1d8e0',
                   backgroundColor: isSelected
                     ? 'var(--color-acento)'
+                    : item.isClosed
+                    ? '#f1f2f6'
                     : 'var(--color-fondo-secundario)',
-                  color: 'var(--color-principal)',
+                  color: item.isClosed ? '#a4b0be' : 'var(--color-principal)',
                   fontWeight: isSelected ? '700' : '500',
-                  cursor: 'pointer',
+                  cursor: item.isClosed ? 'not-allowed' : 'pointer',
                   transition: 'all 0.15s ease',
-                  opacity: item.isSunday ? 0.45 : 1,
+                  opacity: item.isClosed ? 0.45 : 1,
                   gap: '0.1rem',
                 }}
+                title={item.isClosed ? 'Cerrado (Domingos y Lunes)' : 'Día de atención'}
               >
                 <span style={{ fontSize: '0.7rem', textTransform: 'capitalize' }}>
                   {item.dayName}
@@ -120,8 +172,14 @@ export default function Calendario({
                 <span style={{ fontSize: '1.3rem', fontWeight: '700', lineHeight: 1 }}>
                   {item.dayNumber}
                 </span>
-                <span style={{ fontSize: '0.65rem', textTransform: 'capitalize', color: isSelected ? 'var(--color-principal)' : '#576574' }}>
-                  {item.monthName}
+                <span
+                  style={{
+                    fontSize: '0.65rem',
+                    textTransform: 'capitalize',
+                    color: isSelected ? 'var(--color-principal)' : item.isClosed ? '#a4b0be' : '#576574'
+                  }}
+                >
+                  {item.isClosed ? 'Cerrado' : item.monthName}
                 </span>
               </button>
             );
@@ -136,11 +194,11 @@ export default function Calendario({
             <p className="campo-label">Elegí un horario:</p>
             {availableCount > 0 ? (
               <span style={{ fontSize: '0.75rem', color: '#576574' }}>
-                {availableCount} disponibles
+                {availableCount} turnos disponibles (incluye ventana de 15 min)
               </span>
             ) : (
               <span style={{ fontSize: '0.75rem', color: '#e17055', fontWeight: '600' }}>
-                Sin horarios disponibles
+                Sin horarios disponibles este día
               </span>
             )}
           </div>
@@ -171,7 +229,7 @@ export default function Calendario({
                   onClick={() => onSelectTime(slot.time)}
                   title={
                     slot.isBooked
-                      ? 'Horario ya reservado'
+                      ? 'Horario ocupado (con margen de 15 min)'
                       : slot.isTooSoon
                       ? 'Menos de 10 hs de anticipación'
                       : 'Horario disponible'
