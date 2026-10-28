@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint",
     "db:init": "node scripts/init-db.js",
-    "db:seed": "node scripts/seed-db.js"
+    "db:seed": "node scripts/seed-db.js",
+    "test": "node --test test/turnos.test.js"
   },
   "dependencies": {
     "next": "16.4.1",

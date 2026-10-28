@@ -312,6 +312,7 @@ export default function Home() {
           Tinogasta, Catamarca • Martes a Sábados de 09:00 a 13:00 y 15:00 a 23:00 hs
         </p>
         <p style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: '0.5rem' }}>
+          🤖 Desarrollado y optimizado con asistencia de Inteligencia Artificial supervisada. • 
           * Los precios indicados son provisorios ($0) según documentación. •{' '}
           <Link href="/admin" style={{ color: '#cbd5e1', textDecoration: 'underline' }}>
             Acceso Administración
