@@ -281,6 +281,11 @@ export default function Footer() {
           <span>Tinogasta, Catamarca • Barbería & Peluquería</span>
         </div>
 
+        {/* ── Derechos de autor ── */}
+        <div style={{ fontSize: '0.8rem', color: '#e2e8f0', fontWeight: '500' }}>
+          <span>© {new Date().getFullYear()} Cortes Relativos • Todos los derechos reservados por <strong>Javier Paredes</strong></span>
+        </div>
+
         {/* ── Leyenda de Transparencia de IA y Referencia de Precios ── */}
         <div
           style={{
