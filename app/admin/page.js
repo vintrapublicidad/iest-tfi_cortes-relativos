@@ -404,9 +404,13 @@ export default function AdminPage() {
       {/* ── Tabs Navegación ── */}
       <nav
         style={{
-          backgroundColor: 'rgba(255, 255, 255, 0.85)',
+          backgroundColor: 'rgba(255, 255, 255, 0.95)',
           borderBottom: '1px solid #e2e8f0',
-          padding: '0.5rem 1rem',
+          padding: '0.5rem 0.75rem',
+          position: 'sticky',
+          top: 0,
+          zIndex: 40,
+          backdropFilter: 'blur(8px)',
         }}
       >
         <div
@@ -414,62 +418,106 @@ export default function AdminPage() {
             maxWidth: '1000px',
             margin: '0 auto',
             display: 'flex',
-            gap: '0.5rem',
+            gap: '0.4rem',
+            overflowX: 'auto',
+            WebkitOverflowScrolling: 'touch',
+            paddingBottom: '0.25rem',
+            scrollbarWidth: 'none',
           }}
         >
           <button
             onClick={() => setActiveTab('turnos')}
             style={{
-              padding: '0.5rem 1rem',
+              padding: '0.55rem 0.9rem',
               borderRadius: 'var(--radio-borde)',
-              backgroundColor: activeTab === 'turnos' ? 'var(--color-principal)' : 'transparent',
+              backgroundColor: activeTab === 'turnos' ? 'var(--color-principal)' : '#f1f5f9',
               color: activeTab === 'turnos' ? 'white' : 'var(--color-principal)',
               fontWeight: '700',
-              fontSize: '0.88rem',
+              fontSize: '0.82rem',
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
+              border: 'none',
+              cursor: 'pointer',
             }}
           >
-            <span style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}><Calendar size={15} /> Turnos ({appointments.length})</span>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem" }}>
+              <Calendar size={15} /> Turnos ({appointments.length})
+            </span>
           </button>
           <button
             onClick={() => setActiveTab('metricas')}
             style={{
-              padding: '0.5rem 1rem',
+              padding: '0.55rem 0.9rem',
               borderRadius: 'var(--radio-borde)',
-              backgroundColor: activeTab === 'metricas' ? 'var(--color-principal)' : 'transparent',
+              backgroundColor: activeTab === 'metricas' ? 'var(--color-principal)' : '#f1f5f9',
               color: activeTab === 'metricas' ? 'white' : 'var(--color-principal)',
               fontWeight: '700',
-              fontSize: '0.88rem',
+              fontSize: '0.82rem',
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
+              border: 'none',
+              cursor: 'pointer',
             }}
           >
-            <span style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}><BarChart2 size={15} /> Métricas y Reportes</span>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem" }}>
+              <BarChart2 size={15} /> Métricas
+            </span>
           </button>
           <button
             onClick={() => setActiveTab('espera')}
             style={{
-              padding: '0.5rem 1rem',
+              padding: '0.55rem 0.9rem',
               borderRadius: 'var(--radio-borde)',
-              backgroundColor: activeTab === 'espera' ? 'var(--color-principal)' : 'transparent',
+              backgroundColor: activeTab === 'espera' ? 'var(--color-principal)' : '#f1f5f9',
               color: activeTab === 'espera' ? 'white' : 'var(--color-principal)',
               fontWeight: '700',
-              fontSize: '0.88rem',
+              fontSize: '0.82rem',
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
+              border: 'none',
+              cursor: 'pointer',
             }}
           >
-            ⏳ Lista de Espera ({waitlist.length})
+            ⏳ Espera ({waitlist.length})
           </button>
           <button
             onClick={() => setActiveTab('barberos')}
             style={{
-              padding: '0.5rem 1rem',
+              padding: '0.55rem 0.9rem',
               borderRadius: 'var(--radio-borde)',
-              backgroundColor: activeTab === 'barberos' ? 'var(--color-principal)' : 'transparent',
+              backgroundColor: activeTab === 'barberos' ? 'var(--color-principal)' : '#f1f5f9',
               color: activeTab === 'barberos' ? 'white' : 'var(--color-principal)',
               fontWeight: '700',
-              fontSize: '0.88rem',
+              fontSize: '0.82rem',
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
+              border: 'none',
+              cursor: 'pointer',
             }}
           >
-            <span style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}><Users size={15} /> Barberos ({barbers.length})</span>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem" }}>
+              <Users size={15} /> Barberos ({barbers.length})
+            </span>
           </button>
-          <button onClick={() => setActiveTab('config')} style={{ padding: '0.5rem 1rem', borderRadius: 'var(--radio-borde)', backgroundColor: activeTab === 'config' ? 'var(--color-principal)' : 'transparent', color: activeTab === 'config' ? 'white' : 'var(--color-principal)', fontWeight: '700', fontSize: '0.88rem' }}>Configuración WhatsApp</button>
+          <button
+            onClick={() => setActiveTab('config')}
+            style={{
+              padding: '0.55rem 0.9rem',
+              borderRadius: 'var(--radio-borde)',
+              backgroundColor: activeTab === 'config' ? 'var(--color-principal)' : '#f1f5f9',
+              color: activeTab === 'config' ? 'white' : 'var(--color-principal)',
+              fontWeight: '700',
+              fontSize: '0.82rem',
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
+              border: 'none',
+              cursor: 'pointer',
+            }}
+          >
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem" }}>
+              <MessageSquare size={15} /> WhatsApp
+            </span>
+          </button>
         </div>
       </nav>
 
@@ -527,7 +575,7 @@ export default function AdminPage() {
                 />
               </div>
 
-              <div style={{ flex: '0 0 auto', display: 'flex', gap: '0.35rem', overflowX: 'auto', width: '100%' }}>
+              <div style={{ flex: '1 1 100%', display: 'flex', gap: '0.35rem', overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', paddingBottom: '0.2rem' }}>
                 {['todos', 'pendiente', 'confirmado', 'cancelado'].map((st) => (
                   <button
                     key={st}
@@ -540,6 +588,9 @@ export default function AdminPage() {
                       border: '1px solid #cbd5e1',
                       backgroundColor: statusFilter === st ? 'var(--color-acento)' : 'white',
                       color: 'var(--color-principal)',
+                      whiteSpace: 'nowrap',
+                      flexShrink: 0,
+                      cursor: 'pointer',
                     }}
                   >
                     {st === 'todos' ? 'Todos' : st.charAt(0).toUpperCase() + st.slice(1)}
