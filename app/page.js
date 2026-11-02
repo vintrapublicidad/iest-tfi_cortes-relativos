@@ -180,7 +180,7 @@ export default function Home() {
           <ol style={{ paddingLeft: '1.2rem', margin: 0, lineHeight: 2 }}>
             <li>
               <strong>Elegí tu turno</strong> con al menos{' '}
-              <strong>10 horas de anticipación</strong>.
+              <strong>2 horas de anticipación</strong>.
             </li>
             <li>
               <strong>Confirmá por WhatsApp:</strong> te avisaremos antes del turno.
