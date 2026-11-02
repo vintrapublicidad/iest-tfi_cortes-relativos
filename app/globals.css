@@ -690,7 +690,7 @@ textarea:focus-visible {
 }
 
 /* ══════════════════════════════════════════════════════════════
-   8. Easter Egg: Pelo Electrostático y Lengua de Einstein
+   8. Easter Egg: Sobrecarga Cuántica y Rayos Relativistas (Hero)
    ══════════════════════════════════════════════════════════════ */
 .hero-einstein-easteregg {
   position: relative;
@@ -699,96 +699,75 @@ textarea:focus-visible {
   justify-content: center;
 }
 
-/* Animación de electrocución / sacudida loca */
+/* Estado Electrificado: temblor de alta frecuencia y resplandor de plasma */
 .einstein-electrified {
-  animation: einsteinShake 0.12s infinite alternate !important;
-  box-shadow: 0 0 35px rgba(241, 196, 15, 0.9), 0 0 70px rgba(255, 255, 255, 0.7) !important;
+  animation: einsteinQuantumShake 0.08s infinite alternate !important;
+  box-shadow: 0 0 35px rgba(241, 196, 15, 0.95), 0 0 75px rgba(255, 255, 255, 0.8), 0 0 110px rgba(241, 196, 15, 0.5) !important;
 }
 
 .einstein-electrified::before {
-  animation: lightningOrbitFast 0.4s linear infinite !important;
-  filter: drop-shadow(0 0 12px #FFFFFF) drop-shadow(0 0 24px #F1C40F) !important;
+  animation: lightningOrbitHyper 0.32s linear infinite !important;
+  filter: drop-shadow(0 0 14px #FFFFFF) drop-shadow(0 0 28px #F1C40F) !important;
 }
 
 .einstein-electrified::after {
-  animation: lightningPulseFast 0.3s ease-in-out infinite !important;
-  background: radial-gradient(circle, rgba(241, 196, 15, 0.7) 0%, rgba(255, 255, 255, 0.4) 50%, transparent 80%) !important;
+  animation: lightningPulseHyper 0.25s ease-in-out infinite !important;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(241, 196, 15, 0.6) 40%, transparent 75%) !important;
 }
 
-/* La imagen de Einstein tiembla y resplandece */
-.einstein-shock-img {
-  animation: einsteinHairZap 0.18s infinite alternate !important;
-  filter: drop-shadow(0 0 8px rgba(241, 196, 15, 0.85)) brightness(1.15) contrast(1.1);
-}
-
-/* Lengua icónica de Einstein */
-.einstein-tongue {
+/* Aura cuántica de plasma adicional detrás de la cabeza */
+.einstein-plasma-aura {
   position: absolute;
-  bottom: 24%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
+  inset: -16px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(241, 196, 15, 0.45) 0%, rgba(255, 255, 255, 0.25) 50%, transparent 75%);
+  animation: plasmaRipples 0.6s ease-out infinite;
+  z-index: -1;
   pointer-events: none;
-  animation: einsteinTongueOut 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-.einstein-tongue-shape {
-  width: 22px;
-  height: 28px;
-  background: linear-gradient(180deg, #ff6b81 0%, #ee5253 100%);
-  border-radius: 4px 4px 14px 14px;
-  border: 2px solid #5f27cd;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  position: relative;
+/* La imagen de Einstein: vibración de cabello, resplandor e inversión eléctrica sutil */
+.einstein-shock-img {
+  animation: einsteinHairElectro 0.14s infinite alternate !important;
+  filter: drop-shadow(0 0 10px rgba(241, 196, 15, 0.9)) drop-shadow(0 0 20px rgba(255, 255, 255, 0.7)) brightness(1.2) contrast(1.15);
 }
 
-.einstein-tongue-shape::after {
-  content: '';
-  position: absolute;
-  top: 3px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 14px;
-  background: rgba(95, 39, 205, 0.45);
-  border-radius: 1px;
-}
-
-/* Chispas flotantes alrededor de la cabeza */
+/* Partículas orbitales (rayos y átomos cuánticos) */
 .einstein-spark {
   position: absolute;
   top: 50%;
   left: 50%;
   z-index: 15;
   pointer-events: none;
-  animation: sparkFlicker 0.25s infinite alternate;
+  animation: particleOrbitMotion 0.65s ease-in-out infinite alternate;
 }
 
-/* Bocadillo de diálogo con fórmula cuántica */
+/* Bocadillo editorial flotante con fórmulas de física relativista */
 .einstein-speech-bubble {
   position: absolute;
-  top: -34px;
+  top: -38px;
   right: -55px;
-  background: #ffffff;
+  background: linear-gradient(135deg, #ffffff 0%, #fdfbf7 100%);
   color: var(--color-principal);
   font-family: var(--fuente-cuerpo);
   font-size: 0.95rem;
   font-weight: 800;
-  padding: 0.45rem 0.95rem;
-  border-radius: 1.25rem;
+  letter-spacing: 0.5px;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
   border: 2px solid var(--color-acento);
-  box-shadow: 0 8px 24px rgba(44, 62, 80, 0.25), 0 2px 6px rgba(241, 196, 15, 0.4);
+  box-shadow: 0 10px 28px rgba(44, 62, 80, 0.28), 0 0 15px rgba(241, 196, 15, 0.45);
   display: inline-flex;
   align-items: center;
-  z-index: 20;
-  animation: bubblePop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  z-index: 25;
+  animation: bubblePopIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   pointer-events: none;
 }
 
 .einstein-bubble-tail {
   position: absolute;
   bottom: -9px;
-  left: 20px;
+  left: 24px;
   width: 0;
   height: 0;
   border-left: 8px solid transparent;
@@ -796,65 +775,60 @@ textarea:focus-visible {
   border-top: 9px solid #ffffff;
 }
 
-@keyframes einsteinShake {
+@keyframes einsteinQuantumShake {
   0% {
-    transform: translate(2px, 1px) rotate(0deg);
+    transform: translate(2px, 1px) rotate(0deg) scale(1.02);
   }
-  20% {
-    transform: translate(-2px, -2px) rotate(1.5deg);
+  25% {
+    transform: translate(-3px, -2px) rotate(1.2deg) scale(1.03);
   }
-  40% {
-    transform: translate(-3px, 0px) rotate(-1.5deg);
+  50% {
+    transform: translate(-2px, 2px) rotate(-1.2deg) scale(1.01);
   }
-  60% {
-    transform: translate(3px, 2px) rotate(0deg);
-  }
-  80% {
-    transform: translate(1px, -1px) rotate(1deg);
+  75% {
+    transform: translate(3px, -1px) rotate(0.8deg) scale(1.04);
   }
   100% {
-    transform: translate(-1px, 2px) rotate(-1deg);
+    transform: translate(-1px, 2px) rotate(-0.8deg) scale(1.02);
   }
 }
 
-@keyframes einsteinHairZap {
+@keyframes einsteinHairElectro {
   0% {
     transform: scale(1);
   }
   100% {
-    transform: scale(1.08) translateY(-3px);
+    transform: scale(1.06) translateY(-4px);
   }
 }
 
-@keyframes einsteinTongueOut {
+@keyframes plasmaRipples {
   0% {
-    transform: translateX(-50%) scale(0) translateY(-10px);
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.35);
     opacity: 0;
   }
-  70% {
-    transform: translateX(-50%) scale(1.2) translateY(3px);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(-50%) scale(1) translateY(0);
-    opacity: 1;
-  }
 }
 
-@keyframes sparkFlicker {
+@keyframes particleOrbitMotion {
   0% {
-    opacity: 0.4;
-    filter: drop-shadow(0 0 2px #F1C40F);
+    opacity: 0.3;
+    transform: scale(0.8);
+    filter: drop-shadow(0 0 3px #F1C40F);
   }
   100% {
     opacity: 1;
-    filter: drop-shadow(0 0 8px #FFF9C4);
+    transform: scale(1.25);
+    filter: drop-shadow(0 0 10px #FFFFFF);
   }
 }
 
-@keyframes bubblePop {
+@keyframes bubblePopIn {
   0% {
-    transform: scale(0.4) translateY(10px);
+    transform: scale(0.3) translateY(15px);
     opacity: 0;
   }
   100% {
@@ -863,7 +837,7 @@ textarea:focus-visible {
   }
 }
 
-@keyframes lightningOrbitFast {
+@keyframes lightningOrbitHyper {
   0% {
     transform: rotate(0deg);
   }
@@ -872,28 +846,30 @@ textarea:focus-visible {
   }
 }
 
-@keyframes lightningPulseFast {
+@keyframes lightningPulseHyper {
   0%, 100% {
-    opacity: 0.6;
+    opacity: 0.7;
     transform: scale(0.92);
   }
   50% {
     opacity: 1;
-    transform: scale(1.15);
+    transform: scale(1.2);
   }
 }
 
 @media (max-width: 480px) {
   .einstein-speech-bubble {
     right: -10px;
-    top: -38px;
+    top: -42px;
     font-size: 0.85rem;
+    padding: 0.4rem 0.85rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .einstein-electrified,
   .einstein-shock-img,
+  .einstein-plasma-aura,
   .einstein-spark,
   .einstein-speech-bubble {
     animation: none !important;

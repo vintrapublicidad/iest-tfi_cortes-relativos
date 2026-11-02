@@ -2,14 +2,21 @@
 
 import { useState, useRef } from 'react';
 import Image from 'next/image';
-import { Zap, Sparkles } from 'lucide-react';
+import { Zap, Sparkles, Atom } from 'lucide-react';
 
-const FORMULAS = ['E = mc²', 'ħω', 'λ = h/p', 'G_μν = 8πT_μν', 'Δx·Δp ≥ ℏ/2', 'E² = (pc)² + (mc²)²'];
+const FORMULAS = [
+  'E = mc²',
+  'ħω = E',
+  'λ = h / p',
+  'G_μν = 8πT_μν',
+  'Δx · Δp ≥ ℏ/2',
+  'E² = (pc)² + (mc²)²',
+];
 
 export default function HeroLogoEasterEgg() {
   const [isZapped, setIsZapped] = useState(false);
   const [formulaIndex, setFormulaIndex] = useState(0);
-  const [sparks, setSparks] = useState([]);
+  const [particles, setParticles] = useState([]);
   const cooldownRef = useRef(false);
 
   const triggerShock = () => {
@@ -18,29 +25,34 @@ export default function HeroLogoEasterEgg() {
     setIsZapped(true);
     setFormulaIndex((prev) => (prev + 1) % FORMULAS.length);
 
-    // Generar chispas eléctricas aleatorias alrededor de la cabeza
-    const newSparks = Array.from({ length: 8 }, (_, i) => ({
-      id: Date.now() + i,
-      x: Math.cos((i * Math.PI) / 4) * (70 + Math.random() * 25),
-      y: Math.sin((i * Math.PI) / 4) * (70 + Math.random() * 25),
-      delay: Math.random() * 0.2,
-      scale: 0.8 + Math.random() * 0.6,
-    }));
-    setSparks(newSparks);
+    // Generar partículas eléctricas y átomos orbitales detallados
+    const newParticles = Array.from({ length: 12 }, (_, i) => {
+      const angle = (i * 2 * Math.PI) / 12;
+      const distance = 85 + Math.random() * 35;
+      return {
+        id: Date.now() + i,
+        x: Math.cos(angle) * distance,
+        y: Math.sin(angle) * distance,
+        delay: (i * 0.04) % 0.25,
+        scale: 0.75 + Math.random() * 0.6,
+        isAtom: i % 3 === 0,
+      };
+    });
+    setParticles(newParticles);
 
-    // Feedback háptico en móviles
+    // Vibración táctil háptica en móviles
     if (typeof window !== 'undefined' && 'vibrate' in navigator) {
       try {
-        navigator.vibrate([20, 30, 20, 40]);
+        navigator.vibrate([25, 35, 25, 45, 60]);
       } catch {}
     }
 
-    // Duración de la animación electrostática: 2.4s
+    // Duración de la sobrecarga cuántica: 2.2 segundos
     setTimeout(() => {
       setIsZapped(false);
-      setSparks([]);
+      setParticles([]);
       cooldownRef.current = false;
-    }, 2400);
+    }, 2200);
   };
 
   return (
@@ -54,13 +66,13 @@ export default function HeroLogoEasterEgg() {
         marginBottom: '1.25rem',
       }}
     >
-      {/* Contenedor principal del logo con el rayo orbital existente */}
+      {/* Contenedor circular con el halo y el rayo perimetral */}
       <div
         onClick={triggerShock}
         role="button"
         tabIndex={0}
-        aria-label="Tocar a Albert Einstein para descarga electrostática"
-        title="⚡ ¡Tocá a Einstein para una descarga relativa!"
+        aria-label="Tocar a Albert Einstein para sobrecarga electrostática"
+        title="⚡ ¡Tocá a Einstein para activar la sobrecarga cuántica!"
         className={`logo-lightning-wrapper ${isZapped ? 'einstein-electrified' : ''}`}
         style={{
           cursor: 'pointer',
@@ -70,6 +82,9 @@ export default function HeroLogoEasterEgg() {
           transition: 'transform 0.15s ease',
         }}
       >
+        {/* Aura cuántica adicional de plasma cuando está electrificado */}
+        {isZapped && <div className="einstein-plasma-aura" aria-hidden="true" />}
+
         <Image
           src="/img/logo.svg"
           alt="Logo de Cortes Relativos con ilustración inspirada en Einstein y elementos de peluquería"
@@ -85,33 +100,30 @@ export default function HeroLogoEasterEgg() {
           className={isZapped ? 'einstein-shock-img' : ''}
         />
 
-        {/* Lengua clásica traviesa de Einstein que sale durante el shock */}
-        {isZapped && (
-          <div className="einstein-tongue" aria-hidden="true">
-            <div className="einstein-tongue-shape" />
-          </div>
-        )}
-
-        {/* Chispas de estática orbitando */}
+        {/* Chispas y partículas atómicas orbitando */}
         {isZapped &&
-          sparks.map((spark) => (
+          particles.map((p) => (
             <div
-              key={spark.id}
+              key={p.id}
               className="einstein-spark"
               style={{
-                transform: `translate(${spark.x}px, ${spark.y}px) scale(${spark.scale})`,
-                animationDelay: `${spark.delay}s`,
+                transform: `translate(${p.x}px, ${p.y}px) scale(${p.scale})`,
+                animationDelay: `${p.delay}s`,
               }}
             >
-              <Zap size={16} color="#FFF9C4" fill="#F1C40F" />
+              {p.isAtom ? (
+                <Atom size={18} color="#FFFFFF" />
+              ) : (
+                <Zap size={16} color="#FFF9C4" fill="#F1C40F" />
+              )}
             </div>
           ))}
       </div>
 
-      {/* Bocadillo / Nube con la fórmula de Einstein */}
+      {/* Bocadillo elegante flotante con la fórmula relativista */}
       {isZapped && (
         <div className="einstein-speech-bubble" aria-live="polite">
-          <Sparkles size={13} color="#F1C40F" style={{ marginRight: '0.25rem' }} />
+          <Sparkles size={14} color="#F1C40F" style={{ marginRight: '0.35rem' }} />
           <strong>{FORMULAS[formulaIndex]}</strong>
           <span className="einstein-bubble-tail" />
         </div>
