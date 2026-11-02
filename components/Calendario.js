@@ -83,7 +83,7 @@ export default function Calendario({
     return OPERATING_HOURS.map((timeStr) => {
       const slotDateTime = new Date(`${selectedDate}T${timeStr}:00`);
       const diffHours = (slotDateTime.getTime() - now.getTime()) / (1000 * 60 * 60);
-      const isTooSoon = diffHours < 10;
+      const isTooSoon = diffHours < 2;
 
       const slotStartMinutes = timeToMinutes(timeStr);
       // El bloque reservado incluye la duración del corte + ventana de 15 min de amortiguación
@@ -123,7 +123,7 @@ export default function Calendario({
     <div>
       {/* Aviso de anticipación y franja */}
       <div className="aviso" style={{ marginBottom: '1.25rem', fontSize: '0.85rem' }}>
-        <span style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", verticalAlign: "middle", marginRight: "0.35rem" }}><Info size={16} color="var(--color-principal)" /></span>Atención de <strong>Martes a Sábados (09:00 a 13:00 y 15:00 a 23:00 hs)</strong> con <strong>15 min de margen sanitario y de descanso</strong> entre cortes. Mínimo <strong>10 horas de anticipación</strong>.
+        <span style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", verticalAlign: "middle", marginRight: "0.35rem" }}><Info size={16} color="var(--color-principal)" /></span>Atención de <strong>Martes a Sábados (09:00 a 13:00 y 15:00 a 23:00 hs)</strong> con <strong>15 min de margen sanitario y de descanso</strong> entre cortes. Mínimo <strong>2 horas de anticipación</strong>.
       </div>
 
       {/* ── Selector de fecha: scroll horizontal con scroll-snap ── */}
@@ -232,7 +232,7 @@ export default function Calendario({
                     slot.isBooked
                       ? 'Horario ocupado (con margen de 15 min)'
                       : slot.isTooSoon
-                      ? 'Menos de 10 hs de anticipación'
+                      ? 'Menos de 2 hs de anticipación'
                       : 'Horario disponible'
                   }
                   style={{

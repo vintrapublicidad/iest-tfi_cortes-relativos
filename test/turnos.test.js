@@ -31,18 +31,18 @@ test('3. Validación de Email Opcional', () => {
   assert.equal(validateEmail('test@peluqueria.com').isValid, true, 'Email correcto es válido');
 });
 
-test('4. Validación de Anticipación Mínima (10 Horas)', () => {
+test('4. Validación de Anticipación Mínima (2 Horas)', () => {
   const ahora = new Date();
 
-  // Turno dentro de 2 horas (debe fallar)
-  const turnoMuyPronto = new Date(ahora.getTime() + 2 * 60 * 60 * 1000).toISOString();
+  // Turno dentro de 1 hora (debe fallar)
+  const turnoMuyPronto = new Date(ahora.getTime() + 1 * 60 * 60 * 1000).toISOString();
   const resFallo = validateAppointmentTime(turnoMuyPronto);
-  assert.equal(resFallo.isValid, false, 'Turno con 2 hs de anticipación debe ser rechazado');
+  assert.equal(resFallo.isValid, false, 'Turno con 1 h de anticipación debe ser rechazado');
 
-  // Turno dentro de 24 horas (debe pasar)
-  const turnoValido = new Date(ahora.getTime() + 24 * 60 * 60 * 1000).toISOString();
+  // Turno dentro de 5 horas (debe pasar)
+  const turnoValido = new Date(ahora.getTime() + 5 * 60 * 60 * 1000).toISOString();
   const resExito = validateAppointmentTime(turnoValido);
-  assert.equal(resExito.isValid, true, 'Turno con 24 hs de anticipación debe ser aceptado');
+  assert.equal(resExito.isValid, true, 'Turno con 5 hs de anticipación debe ser aceptado');
 });
 
 test('5. Validación de Estados de Turno Permitidos', () => {
