@@ -3,6 +3,7 @@ import { Scissors, Lightbulb, Bot, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import VideoPromocional from "@/components/VideoPromocional";
 import TarjetaServicio from "@/components/TarjetaServicio";
+import Footer from "@/components/Footer";
 
 const FEATURED_SERVICES = [
   { id: 1, nombre: 'Corte de caballero', duracion: '30 min', precio: '$ 0' },
@@ -257,32 +258,7 @@ export default function Home() {
       </main>
 
       {/* ── Footer ── */}
-      <footer
-        style={{
-          marginTop: 'auto',
-          backgroundColor: 'var(--color-principal)',
-          color: 'white',
-          padding: '2rem 1.25rem',
-          textAlign: 'center',
-        }}
-      >
-        <p style={{ fontFamily: 'var(--fuente-titulos)', fontSize: '1.4rem', letterSpacing: '1px' }}>
-          CORTES RELATIVOS
-        </p>
-        <p style={{ fontSize: '0.9rem', color: 'var(--color-acento)', marginTop: '0.25rem' }}>
-          &quot;Tu estilo, relativamente perfecto.&quot;
-        </p>
-        <p style={{ fontSize: '0.82rem', color: '#cbd5e1', marginTop: '0.75rem' }}>
-          Tinogasta, Catamarca • Martes a Sábados de 09:00 a 13:00 y 15:00 a 23:00 hs
-        </p>
-        <p style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: '0.5rem' }}>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", verticalAlign: "middle" }}><Bot size={14} /> Desarrollado y optimizado con asistencia de Inteligencia Artificial supervisada.</span> • 
-          * Los precios indicados son provisorios ($0) según documentación. •{' '}
-          <Link href="/admin" style={{ color: '#cbd5e1', textDecoration: 'underline' }}>
-            Acceso Administración
-          </Link>
-        </p>
-      </footer>
+      <Footer />
     </div>
   );
 }
