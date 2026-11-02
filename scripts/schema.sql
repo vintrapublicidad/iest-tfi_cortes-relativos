@@ -29,8 +29,9 @@ CREATE TABLE IF NOT EXISTS peluqueros (
     nombre VARCHAR(100) NOT NULL,
     especialidad VARCHAR(100),
     horario_inicio TIME NOT NULL DEFAULT '09:00:00',
-    horario_fin TIME NOT NULL DEFAULT '20:00:00',
-    dias_trabajo VARCHAR(100) NOT NULL DEFAULT 'Lunes a Sábado',
+    horario_fin TIME NOT NULL DEFAULT '23:00:00',
+    dias_trabajo VARCHAR(100) NOT NULL DEFAULT 'Martes a Sábado',
+    whatsapp VARCHAR(50),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -61,6 +62,13 @@ CREATE TABLE IF NOT EXISTS lista_espera (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Tabla: Configuración (para WhatsApp de la empresa y ajustes globales)
+CREATE TABLE IF NOT EXISTS configuracion (
+    key VARCHAR(100) PRIMARY KEY,
+    value TEXT NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
 -- ==========================================================
 -- Índices para optimización de consultas y reglas de negocio
 -- ==========================================================
@@ -74,4 +82,5 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_turnos_peluquero_fecha_hora
 CREATE INDEX IF NOT EXISTS idx_turnos_fecha_hora ON turnos (fecha_hora);
 CREATE INDEX IF NOT EXISTS idx_turnos_estado ON turnos (estado);
 CREATE INDEX IF NOT EXISTS idx_turnos_cliente_id ON turnos (cliente_id);
+CREATE INDEX IF NOT EXISTS idx_clientes_telefono ON clientes (telefono);
 CREATE INDEX IF NOT EXISTS idx_lista_espera_estado ON lista_espera (estado);

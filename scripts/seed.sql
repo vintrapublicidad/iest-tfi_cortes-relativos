@@ -21,15 +21,16 @@ ON CONFLICT (id) DO UPDATE SET
 SELECT setval('servicios_id_seq', (SELECT MAX(id) FROM servicios));
 
 -- 2. Inserción de Peluqueros de Demostración
-INSERT INTO peluqueros (id, nombre, especialidad, horario_inicio, horario_fin, dias_trabajo) VALUES
-    (1, 'Peluquero de ejemplo 1', 'Cortes clásicos y modernos', '09:00:00', '20:00:00', 'Lunes a Sábado'),
-    (2, 'Peluquero de ejemplo 2', 'Color y peinados', '09:00:00', '20:00:00', 'Lunes a Sábado')
+INSERT INTO peluqueros (id, nombre, especialidad, horario_inicio, horario_fin, dias_trabajo, whatsapp) VALUES
+    (1, 'Peluquero de ejemplo 1', 'Cortes clásicos y modernos', '09:00:00', '23:00:00', 'Martes a Sábado', '+5493837421111'),
+    (2, 'Peluquero de ejemplo 2', 'Color y peinados', '09:00:00', '23:00:00', 'Martes a Sábado', '+5493837422222')
 ON CONFLICT (id) DO UPDATE SET
     nombre = EXCLUDED.nombre,
     especialidad = EXCLUDED.especialidad,
     horario_inicio = EXCLUDED.horario_inicio,
     horario_fin = EXCLUDED.horario_fin,
-    dias_trabajo = EXCLUDED.dias_trabajo;
+    dias_trabajo = EXCLUDED.dias_trabajo,
+    whatsapp = EXCLUDED.whatsapp;
 
 SELECT setval('peluqueros_id_seq', (SELECT MAX(id) FROM peluqueros));
 
@@ -70,3 +71,8 @@ ON CONFLICT (id) DO UPDATE SET
     estado = EXCLUDED.estado;
 
 SELECT setval('lista_espera_id_seq', (SELECT MAX(id) FROM lista_espera));
+
+-- 6. Configuración Inicial del Sistema
+INSERT INTO configuracion (key, value) VALUES
+    ('company_whatsapp', '+549000000000')
+ON CONFLICT (key) DO NOTHING;

@@ -29,7 +29,10 @@ async function initDatabase() {
 
   const pool = new Pool({
     connectionString,
-    connectionTimeoutMillis: 5000,
+    ssl: (connectionString.includes('supabase') || !connectionString.includes('localhost'))
+      ? { rejectUnauthorized: false }
+      : false,
+    connectionTimeoutMillis: 10000,
   });
 
   try {
