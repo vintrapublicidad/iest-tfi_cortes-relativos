@@ -11,6 +11,11 @@ export default function Footer() {
   const [isDragging, setIsDragging] = useState(false);
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [energyProgress, setEnergyProgress] = useState(0); // 0 a 100%
+  const [year, setYear] = useState('2026');
+
+  useEffect(() => {
+    setYear(new Date().getFullYear().toString());
+  }, []);
 
   const logoRef = useRef(null);
   const lastAngleRef = useRef(null);
@@ -283,7 +288,7 @@ export default function Footer() {
 
         {/* ── Derechos de autor ── */}
         <div style={{ fontSize: '0.8rem', color: '#e2e8f0', fontWeight: '500' }}>
-          <span>© {new Date().getFullYear()} Cortes Relativos • Todos los derechos reservados por <strong>Javier Paredes</strong></span>
+          <span>© {year} Cortes Relativos • Todos los derechos reservados por <strong>Javier Paredes</strong></span>
         </div>
 
         {/* ── Leyenda de Transparencia de IA y Referencia de Precios ── */}
