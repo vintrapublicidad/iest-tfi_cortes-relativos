@@ -688,3 +688,214 @@ textarea:focus-visible {
     transform: none !important;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   8. Easter Egg: Pelo Electrostático y Lengua de Einstein
+   ══════════════════════════════════════════════════════════════ */
+.hero-einstein-easteregg {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Animación de electrocución / sacudida loca */
+.einstein-electrified {
+  animation: einsteinShake 0.12s infinite alternate !important;
+  box-shadow: 0 0 35px rgba(241, 196, 15, 0.9), 0 0 70px rgba(255, 255, 255, 0.7) !important;
+}
+
+.einstein-electrified::before {
+  animation: lightningOrbitFast 0.4s linear infinite !important;
+  filter: drop-shadow(0 0 12px #FFFFFF) drop-shadow(0 0 24px #F1C40F) !important;
+}
+
+.einstein-electrified::after {
+  animation: lightningPulseFast 0.3s ease-in-out infinite !important;
+  background: radial-gradient(circle, rgba(241, 196, 15, 0.7) 0%, rgba(255, 255, 255, 0.4) 50%, transparent 80%) !important;
+}
+
+/* La imagen de Einstein tiembla y resplandece */
+.einstein-shock-img {
+  animation: einsteinHairZap 0.18s infinite alternate !important;
+  filter: drop-shadow(0 0 8px rgba(241, 196, 15, 0.85)) brightness(1.15) contrast(1.1);
+}
+
+/* Lengua icónica de Einstein */
+.einstein-tongue {
+  position: absolute;
+  bottom: 24%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  pointer-events: none;
+  animation: einsteinTongueOut 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.einstein-tongue-shape {
+  width: 22px;
+  height: 28px;
+  background: linear-gradient(180deg, #ff6b81 0%, #ee5253 100%);
+  border-radius: 4px 4px 14px 14px;
+  border: 2px solid #5f27cd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.einstein-tongue-shape::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 14px;
+  background: rgba(95, 39, 205, 0.45);
+  border-radius: 1px;
+}
+
+/* Chispas flotantes alrededor de la cabeza */
+.einstein-spark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 15;
+  pointer-events: none;
+  animation: sparkFlicker 0.25s infinite alternate;
+}
+
+/* Bocadillo de diálogo con fórmula cuántica */
+.einstein-speech-bubble {
+  position: absolute;
+  top: -34px;
+  right: -55px;
+  background: #ffffff;
+  color: var(--color-principal);
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.95rem;
+  font-weight: 800;
+  padding: 0.45rem 0.95rem;
+  border-radius: 1.25rem;
+  border: 2px solid var(--color-acento);
+  box-shadow: 0 8px 24px rgba(44, 62, 80, 0.25), 0 2px 6px rgba(241, 196, 15, 0.4);
+  display: inline-flex;
+  align-items: center;
+  z-index: 20;
+  animation: bubblePop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  pointer-events: none;
+}
+
+.einstein-bubble-tail {
+  position: absolute;
+  bottom: -9px;
+  left: 20px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 9px solid #ffffff;
+}
+
+@keyframes einsteinShake {
+  0% {
+    transform: translate(2px, 1px) rotate(0deg);
+  }
+  20% {
+    transform: translate(-2px, -2px) rotate(1.5deg);
+  }
+  40% {
+    transform: translate(-3px, 0px) rotate(-1.5deg);
+  }
+  60% {
+    transform: translate(3px, 2px) rotate(0deg);
+  }
+  80% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+  100% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+}
+
+@keyframes einsteinHairZap {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.08) translateY(-3px);
+  }
+}
+
+@keyframes einsteinTongueOut {
+  0% {
+    transform: translateX(-50%) scale(0) translateY(-10px);
+    opacity: 0;
+  }
+  70% {
+    transform: translateX(-50%) scale(1.2) translateY(3px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes sparkFlicker {
+  0% {
+    opacity: 0.4;
+    filter: drop-shadow(0 0 2px #F1C40F);
+  }
+  100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 8px #FFF9C4);
+  }
+}
+
+@keyframes bubblePop {
+  0% {
+    transform: scale(0.4) translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes lightningOrbitFast {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes lightningPulseFast {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+@media (max-width: 480px) {
+  .einstein-speech-bubble {
+    right: -10px;
+    top: -38px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .einstein-electrified,
+  .einstein-shock-img,
+  .einstein-spark,
+  .einstein-speech-bubble {
+    animation: none !important;
+  }
+}

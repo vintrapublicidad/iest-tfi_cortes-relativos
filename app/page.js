@@ -4,6 +4,7 @@ import Link from "next/link";
 import VideoPromocional from "@/components/VideoPromocional";
 import TarjetaServicio from "@/components/TarjetaServicio";
 import Footer from "@/components/Footer";
+import HeroLogoEasterEgg from "@/components/HeroLogoEasterEgg";
 
 const FEATURED_SERVICES = [
   { id: 1, nombre: 'Corte de caballero', duracion: '30 min', precio: '$ 0' },
@@ -113,16 +114,7 @@ export default function Home() {
           width: '100%',
         }}
       >
-        <div className="logo-lightning-wrapper">
-          <Image
-            src="/img/logo.svg"
-            alt="Logo de Cortes Relativos con ilustración inspirada en Einstein y elementos de peluquería"
-            width={200}
-            height={200}
-            priority
-            style={{ width: '160px', height: 'auto', display: 'block' }}
-          />
-        </div>
+        <HeroLogoEasterEgg />
         <h1
           style={{
             fontSize: 'clamp(2rem, 8vw, 3rem)',
