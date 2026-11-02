@@ -554,3 +554,324 @@ textarea:focus-visible {
     animation: none !important;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   7. Video Promocional Vertical Elegante (Mobile-First)
+   ══════════════════════════════════════════════════════════════ */
+.video-promo-section {
+  width: 100%;
+  max-width: 860px;
+  margin: 1.5rem auto 2.5rem;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.video-promo-header {
+  text-align: center;
+  max-width: 580px;
+  margin-bottom: 1.25rem;
+}
+
+.video-promo-tag {
+  display: inline-block;
+  background-color: rgba(241, 196, 15, 0.15);
+  color: var(--color-principal);
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(241, 196, 15, 0.4);
+  margin-bottom: 0.5rem;
+}
+
+.video-promo-title {
+  font-family: var(--fuente-titulos);
+  font-size: clamp(1.4rem, 4vw, 1.85rem);
+  color: var(--color-principal);
+  margin-bottom: 0.35rem;
+  line-height: 1.2;
+}
+
+.video-promo-desc {
+  font-size: 0.92rem;
+  color: #576574;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.video-promo-card {
+  position: relative;
+  width: 100%;
+  max-width: 360px; /* Proporción vertical tipo reel */
+  border-radius: 1.25rem;
+  padding: 6px;
+  background: linear-gradient(145deg, #ffffff, #f1f2f6);
+  border: 2px solid rgba(241, 196, 15, 0.5);
+  box-shadow: 0 12px 30px -8px rgba(44, 62, 80, 0.22),
+              0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video-promo-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px -8px rgba(44, 62, 80, 0.28),
+              0 6px 14px rgba(241, 196, 15, 0.2);
+}
+
+.video-promo-viewport {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  max-height: 580px;
+  overflow: hidden;
+  border-radius: calc(1.25rem - 4px);
+  background-color: #1a252f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-promo-element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  cursor: pointer;
+  background-color: #1a252f;
+}
+
+.video-promo-control-btn {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(44, 62, 80, 0.75);
+  color: #F1C40F;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s ease, transform 0.2s ease;
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.video-promo-control-btn:hover {
+  background: var(--color-principal);
+  transform: scale(1.08);
+}
+
+@media (max-width: 480px) {
+  .video-promo-card {
+    max-width: 320px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video-promo-card {
+    transition: none !important;
+    transform: none !important;
+  }
+  .video-promo-control-btn {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   8. Easter Egg: Sobrecarga Cuántica y Rayos Relativistas (Hero)
+   ══════════════════════════════════════════════════════════════ */
+.hero-einstein-easteregg {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Estado Electrificado: temblor de alta frecuencia y resplandor de plasma */
+.einstein-electrified {
+  animation: einsteinQuantumShake 0.08s infinite alternate !important;
+  box-shadow: 0 0 35px rgba(241, 196, 15, 0.95), 0 0 75px rgba(255, 255, 255, 0.8), 0 0 110px rgba(241, 196, 15, 0.5) !important;
+}
+
+.einstein-electrified::before {
+  animation: lightningOrbitHyper 0.32s linear infinite !important;
+  filter: drop-shadow(0 0 14px #FFFFFF) drop-shadow(0 0 28px #F1C40F) !important;
+}
+
+.einstein-electrified::after {
+  animation: lightningPulseHyper 0.25s ease-in-out infinite !important;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(241, 196, 15, 0.6) 40%, transparent 75%) !important;
+}
+
+/* Aura cuántica de plasma adicional detrás de la cabeza */
+.einstein-plasma-aura {
+  position: absolute;
+  inset: -16px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(241, 196, 15, 0.45) 0%, rgba(255, 255, 255, 0.25) 50%, transparent 75%);
+  animation: plasmaRipples 0.6s ease-out infinite;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* La imagen de Einstein: vibración de cabello, resplandor e inversión eléctrica sutil */
+.einstein-shock-img {
+  animation: einsteinHairElectro 0.14s infinite alternate !important;
+  filter: drop-shadow(0 0 10px rgba(241, 196, 15, 0.9)) drop-shadow(0 0 20px rgba(255, 255, 255, 0.7)) brightness(1.2) contrast(1.15);
+}
+
+/* Partículas orbitales (rayos y átomos cuánticos) */
+.einstein-spark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 15;
+  pointer-events: none;
+  animation: particleOrbitMotion 0.65s ease-in-out infinite alternate;
+}
+
+/* Bocadillo editorial flotante con fórmulas de física relativista */
+.einstein-speech-bubble {
+  position: absolute;
+  top: -38px;
+  right: -55px;
+  background: linear-gradient(135deg, #ffffff 0%, #fdfbf7 100%);
+  color: var(--color-principal);
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  border: 2px solid var(--color-acento);
+  box-shadow: 0 10px 28px rgba(44, 62, 80, 0.28), 0 0 15px rgba(241, 196, 15, 0.45);
+  display: inline-flex;
+  align-items: center;
+  z-index: 25;
+  animation: bubblePopIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  pointer-events: none;
+}
+
+.einstein-bubble-tail {
+  position: absolute;
+  bottom: -9px;
+  left: 24px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 9px solid #ffffff;
+}
+
+@keyframes einsteinQuantumShake {
+  0% {
+    transform: translate(2px, 1px) rotate(0deg) scale(1.02);
+  }
+  25% {
+    transform: translate(-3px, -2px) rotate(1.2deg) scale(1.03);
+  }
+  50% {
+    transform: translate(-2px, 2px) rotate(-1.2deg) scale(1.01);
+  }
+  75% {
+    transform: translate(3px, -1px) rotate(0.8deg) scale(1.04);
+  }
+  100% {
+    transform: translate(-1px, 2px) rotate(-0.8deg) scale(1.02);
+  }
+}
+
+@keyframes einsteinHairElectro {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.06) translateY(-4px);
+  }
+}
+
+@keyframes plasmaRipples {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+@keyframes particleOrbitMotion {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.8);
+    filter: drop-shadow(0 0 3px #F1C40F);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.25);
+    filter: drop-shadow(0 0 10px #FFFFFF);
+  }
+}
+
+@keyframes bubblePopIn {
+  0% {
+    transform: scale(0.3) translateY(15px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes lightningOrbitHyper {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes lightningPulseHyper {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@media (max-width: 480px) {
+  .einstein-speech-bubble {
+    right: -10px;
+    top: -42px;
+    font-size: 0.85rem;
+    padding: 0.4rem 0.85rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .einstein-electrified,
+  .einstein-shock-img,
+  .einstein-plasma-aura,
+  .einstein-spark,
+  .einstein-speech-bubble {
+    animation: none !important;
+  }
+}

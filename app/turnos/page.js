@@ -1,20 +1,21 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import TarjetaServicio from '@/components/TarjetaServicio.js';
 import SelectorPeluquero from '@/components/SelectorPeluquero.js';
 import Calendario from '@/components/Calendario.js';
 import FormularioReserva from '@/components/FormularioReserva.js';
 import ListaEspera from '@/components/ListaEspera.js';
+import { Scissors, UserCheck, Calendar as CalendarIcon, FileText, Check } from 'lucide-react';
 
 const STEPS = [
-  { id: 0, label: 'Servicio', emoji: '✂️' },
-  { id: 1, label: 'Peluquero', emoji: '💈' },
-  { id: 2, label: 'Fecha', emoji: '📅' },
-  { id: 3, label: 'Datos', emoji: '📝' },
+  { id: 0, label: 'Servicio', icon: Scissors },
+  { id: 1, label: 'Peluquero', icon: UserCheck },
+  { id: 2, label: 'Fecha', icon: CalendarIcon },
+  { id: 3, label: 'Datos', icon: FileText },
 ];
 
 /** Barra de progreso del flujo de reserva */
@@ -41,7 +42,7 @@ function StepperBar({ currentStep }) {
                 className={`step-circle${isDone ? ' done' : isActive ? ' active' : ''}`}
                 aria-current={isActive ? 'step' : undefined}
               >
-                {isDone ? '✓' : step.emoji}
+                {isDone ? <Check size={14} strokeWidth={3} /> : <step.icon size={15} />}
               </div>
               <span
                 className={`step-label${isActive ? ' active' : ''}`}
@@ -63,8 +64,9 @@ function StepperBar({ currentStep }) {
   );
 }
 
-export default function TurnosPage() {
+function TurnosForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const mainRef = useRef(null);
 
   const [services, setServices] = useState([]);
@@ -91,7 +93,13 @@ export default function TurnosPage() {
           setBarbers(data.barbers || []);
           setAppointments(data.appointments || []);
           if (data.services?.length > 0) {
-            setSelectedService(data.services[0]);
+            const paramId = searchParams ? parseInt(searchParams.get('servicioId'), 10) : null;
+            const matched = paramId ? data.services.find(s => s.id === paramId) : null;
+            setSelectedService(matched || data.services[0]);
+            if (matched) {
+              // Avanza directo al paso 1 (Peluquero) para agilizar la experiencia móvil
+              setCurrentStep(1);
+            }
           }
         }
       } catch (err) {
@@ -259,10 +267,10 @@ export default function TurnosPage() {
                   marginBottom: '0.2rem',
                 }}
               >
-                {currentStep === 0 && '✂️ Elegí tu servicio'}
-                {currentStep === 1 && '💈 Elegí un peluquero'}
-                {currentStep === 2 && '📅 Elegí fecha y horario'}
-                {currentStep === 3 && '📝 Completá tus datos'}
+                {currentStep === 0 && <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}><Scissors size={24} /> Elegí tu servicio</span>}
+                {currentStep === 1 && <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}><UserCheck size={24} /> Elegí un peluquero</span>}
+                {currentStep === 2 && <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}><CalendarIcon size={24} /> Elegí fecha y horario</span>}
+                {currentStep === 3 && <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}><FileText size={24} /> Completá tus datos</span>}
               </h1>
               <p style={{ color: '#576574', fontSize: '0.9rem' }}>
                 Paso {currentStep + 1} de {STEPS.length}
@@ -420,5 +428,20 @@ export default function TurnosPage() {
         </div>
       )}
     </div>
+  );
+}
+
+
+export default function TurnosPage() {
+  return (
+    <Suspense
+      fallback={
+        <div style={{ textAlign: 'center', padding: '4rem 1rem', color: '#576574' }}>
+          <p>Cargando sistema de turnos...</p>
+        </div>
+      }
+    >
+      <TurnosForm />
+    </Suspense>
   );
 }

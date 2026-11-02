@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { CheckCircle2, ClipboardList, AlertCircle } from 'lucide-react';
 
 /**
  * Waitlist component. Mobile-first: campos grandes, sin zoom en iOS.
@@ -61,7 +62,7 @@ export default function ListaEspera({ services = [], onJoined }) {
           color: '#234e52',
         }}
       >
-        <p style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🎉</p>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.75rem' }}><CheckCircle2 size={44} color="#27ae60" /></div>
         <h4 style={{ fontSize: '1.15rem', marginBottom: '0.5rem' }}>
           ¡Anotado en la lista de espera!
         </h4>
@@ -191,7 +192,7 @@ export default function ListaEspera({ services = [], onJoined }) {
               border: 'none',
             }}
           >
-            {isSubmitting ? 'Anotando...' : '📋 Anotarme en lista de espera'}
+            {isSubmitting ? 'Anotando...' : <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.45rem' }}><ClipboardList size={18} /> Anotarme en lista de espera</span>}
           </button>
         </form>
       </div>

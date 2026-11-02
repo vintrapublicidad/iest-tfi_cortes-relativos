@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { AlertCircle, AlertTriangle, CheckCircle, Send } from 'lucide-react';
 
 /**
  * Reservation form collecting client data and displaying critical booking notices.
@@ -56,7 +57,7 @@ export default function FormularioReserva({
       {/* Error feedback */}
       {displayError && (
         <div className="error-msg" role="alert">
-          ⚠️ {displayError}
+          <span style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", verticalAlign: "middle" }}><AlertCircle size={15} /> {displayError}</span>
         </div>
       )}
 
@@ -130,7 +131,7 @@ export default function FormularioReserva({
         }}
       >
         <h4 style={{ marginBottom: '0.4rem', color: '#b7791f', fontSize: '0.9rem' }}>
-          ⚠️ Condiciones de la reserva:
+          <span style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", verticalAlign: "middle" }}><AlertTriangle size={16} color="var(--color-principal)" /> Condiciones de la reserva:</span>
         </h4>
         <ul style={{ paddingLeft: '1.2rem', margin: 0 }}>
           <li>
@@ -186,7 +187,7 @@ export default function FormularioReserva({
         className="btn-primario"
         style={{ fontSize: '1.1rem' }}
       >
-        {isSubmitting ? 'Procesando reserva...' : '✅ Confirmar Reserva'}
+        {isSubmitting ? 'Procesando reserva...' : <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.45rem' }}><CheckCircle size={18} /> Confirmar Reserva</span>}
       </button>
     </form>
   );

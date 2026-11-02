@@ -1,5 +1,10 @@
 import Image from "next/image";
+import { Scissors, Lightbulb, Bot, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import VideoPromocional from "@/components/VideoPromocional";
+import TarjetaServicio from "@/components/TarjetaServicio";
+import Footer from "@/components/Footer";
+import HeroLogoEasterEgg from "@/components/HeroLogoEasterEgg";
 
 const FEATURED_SERVICES = [
   { id: 1, nombre: 'Corte de caballero', duracion: '30 min', precio: '$ 0' },
@@ -109,16 +114,7 @@ export default function Home() {
           width: '100%',
         }}
       >
-        <div className="logo-lightning-wrapper">
-          <Image
-            src="/img/logo.svg"
-            alt="Logo de Cortes Relativos con ilustración inspirada en Einstein y elementos de peluquería"
-            width={200}
-            height={200}
-            priority
-            style={{ width: '160px', height: 'auto', display: 'block' }}
-          />
-        </div>
+        <HeroLogoEasterEgg />
         <h1
           style={{
             fontSize: 'clamp(2rem, 8vw, 3rem)',
@@ -161,9 +157,12 @@ export default function Home() {
             maxWidth: '340px',
           }}
         >
-          ✂️ Reservar Turno Ahora
+          <Scissors size={18} style={{ marginRight: "0.5rem" }} /> Reservar Turno Ahora
         </Link>
       </header>
+
+      {/* ── Video Promocional ── */}
+      <VideoPromocional />
 
       {/* ── Aviso cómo funciona ── */}
       <section
@@ -176,7 +175,7 @@ export default function Home() {
       >
         <div className="aviso" style={{ fontSize: '0.9rem' }}>
           <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>
-            💡 ¿Cómo funciona el sistema de reservas?
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}><Lightbulb size={20} color="var(--color-acento)" /> ¿Cómo funciona el sistema de reservas?</span>
           </h3>
           <ol style={{ paddingLeft: '1.2rem', margin: 0, lineHeight: 2 }}>
             <li>
@@ -217,56 +216,14 @@ export default function Home() {
 
         <div className="grid-servicios">
           {FEATURED_SERVICES.map((serv) => (
-            <div
+            <Link
               key={serv.id}
-              style={{
-                backgroundColor: 'var(--color-fondo)',
-                border: '1px solid #d1d8e0',
-                borderRadius: 'var(--radio-borde)',
-                padding: '1rem',
-                boxShadow: '0 2px 6px rgba(44, 62, 80, 0.04)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-              }}
+              href={`/turnos?servicioId=${serv.id}`}
+              style={{ textDecoration: 'none', display: 'flex', width: '100%' }}
+              aria-label={`Reservar ${serv.nombre}`}
             >
-              <div>
-                <h3 style={{ fontSize: '1rem', color: 'var(--color-principal)', marginBottom: '0.25rem' }}>
-                  {serv.nombre}
-                </h3>
-                <span style={{ fontSize: '0.8rem', color: '#576574' }}>
-                  ⏱️ {serv.duracion}
-                </span>
-              </div>
-              <div
-                style={{
-                  marginTop: '0.85rem',
-                  paddingTop: '0.6rem',
-                  borderTop: '1px dashed #e2e8f0',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}
-              >
-                <span style={{ fontWeight: '700', color: 'var(--color-principal)', fontSize: '0.9rem' }}>
-                  {serv.precio}{' '}
-                  <small style={{ fontWeight: '400', color: '#8395a7', fontSize: '0.7rem' }}>
-                    (prov.)
-                  </small>
-                </span>
-                <Link
-                  href="/turnos"
-                  style={{
-                    fontSize: '0.82rem',
-                    fontWeight: '600',
-                    color: 'var(--color-principal)',
-                    textDecoration: 'underline',
-                  }}
-                >
-                  Agendar →
-                </Link>
-              </div>
-            </div>
+              <TarjetaServicio service={serv} isInteractive={true} />
+            </Link>
           ))}
         </div>
 
@@ -287,38 +244,13 @@ export default function Home() {
               minHeight: '48px',
             }}
           >
-            Ver disponibilidad y reservar →
+            Ver disponibilidad y reservar <ArrowRight size={18} style={{ marginLeft: "0.5rem" }} />
           </Link>
         </div>
       </main>
 
       {/* ── Footer ── */}
-      <footer
-        style={{
-          marginTop: 'auto',
-          backgroundColor: 'var(--color-principal)',
-          color: 'white',
-          padding: '2rem 1.25rem',
-          textAlign: 'center',
-        }}
-      >
-        <p style={{ fontFamily: 'var(--fuente-titulos)', fontSize: '1.4rem', letterSpacing: '1px' }}>
-          CORTES RELATIVOS
-        </p>
-        <p style={{ fontSize: '0.9rem', color: 'var(--color-acento)', marginTop: '0.25rem' }}>
-          &quot;Tu estilo, relativamente perfecto.&quot;
-        </p>
-        <p style={{ fontSize: '0.82rem', color: '#cbd5e1', marginTop: '0.75rem' }}>
-          Tinogasta, Catamarca • Martes a Sábados de 09:00 a 13:00 y 15:00 a 23:00 hs
-        </p>
-        <p style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: '0.5rem' }}>
-          🤖 Desarrollado y optimizado con asistencia de Inteligencia Artificial supervisada. • 
-          * Los precios indicados son provisorios ($0) según documentación. •{' '}
-          <Link href="/admin" style={{ color: '#cbd5e1', textDecoration: 'underline' }}>
-            Acceso Administración
-          </Link>
-        </p>
-      </footer>
+      <Footer />
     </div>
   );
 }
