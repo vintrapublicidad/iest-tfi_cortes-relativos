@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import { Info, Calendar as CalendarIcon, Clock } from 'lucide-react';
 
 /**
  * Horarios de atención:
@@ -122,7 +123,7 @@ export default function Calendario({
     <div>
       {/* Aviso de anticipación y franja */}
       <div className="aviso" style={{ marginBottom: '1.25rem', fontSize: '0.85rem' }}>
-        ℹ️ Atención de <strong>Martes a Sábados (09:00 a 13:00 y 15:00 a 23:00 hs)</strong> con <strong>15 min de margen sanitario y de descanso</strong> entre cortes. Mínimo <strong>10 horas de anticipación</strong>.
+        <span style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", verticalAlign: "middle", marginRight: "0.35rem" }}><Info size={16} color="var(--color-principal)" /></span>Atención de <strong>Martes a Sábados (09:00 a 13:00 y 15:00 a 23:00 hs)</strong> con <strong>15 min de margen sanitario y de descanso</strong> entre cortes. Mínimo <strong>10 horas de anticipación</strong>.
       </div>
 
       {/* ── Selector de fecha: scroll horizontal con scroll-snap ── */}
@@ -322,7 +323,7 @@ export default function Calendario({
             fontSize: '0.95rem',
           }}
         >
-          👆 Tocá un día para ver los horarios disponibles
+          <span style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}><CalendarIcon size={18} color="var(--color-principal)" /> Tocá un día para ver los horarios disponibles</span>
         </div>
       )}
     </div>

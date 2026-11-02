@@ -554,3 +554,137 @@ textarea:focus-visible {
     animation: none !important;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   7. Video Promocional Vertical Elegante (Mobile-First)
+   ══════════════════════════════════════════════════════════════ */
+.video-promo-section {
+  width: 100%;
+  max-width: 860px;
+  margin: 1.5rem auto 2.5rem;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.video-promo-header {
+  text-align: center;
+  max-width: 580px;
+  margin-bottom: 1.25rem;
+}
+
+.video-promo-tag {
+  display: inline-block;
+  background-color: rgba(241, 196, 15, 0.15);
+  color: var(--color-principal);
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(241, 196, 15, 0.4);
+  margin-bottom: 0.5rem;
+}
+
+.video-promo-title {
+  font-family: var(--fuente-titulos);
+  font-size: clamp(1.4rem, 4vw, 1.85rem);
+  color: var(--color-principal);
+  margin-bottom: 0.35rem;
+  line-height: 1.2;
+}
+
+.video-promo-desc {
+  font-size: 0.92rem;
+  color: #576574;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.video-promo-card {
+  position: relative;
+  width: 100%;
+  max-width: 360px; /* Proporción vertical tipo reel */
+  border-radius: 1.25rem;
+  padding: 6px;
+  background: linear-gradient(145deg, #ffffff, #f1f2f6);
+  border: 2px solid rgba(241, 196, 15, 0.5);
+  box-shadow: 0 12px 30px -8px rgba(44, 62, 80, 0.22),
+              0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video-promo-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px -8px rgba(44, 62, 80, 0.28),
+              0 6px 14px rgba(241, 196, 15, 0.2);
+}
+
+.video-promo-viewport {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  max-height: 580px;
+  overflow: hidden;
+  border-radius: calc(1.25rem - 4px);
+  background-color: #1a252f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-promo-element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  cursor: pointer;
+  background-color: #1a252f;
+}
+
+.video-promo-control-btn {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(44, 62, 80, 0.75);
+  color: #F1C40F;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s ease, transform 0.2s ease;
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.video-promo-control-btn:hover {
+  background: var(--color-principal);
+  transform: scale(1.08);
+}
+
+@media (max-width: 480px) {
+  .video-promo-card {
+    max-width: 320px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video-promo-card {
+    transition: none !important;
+    transform: none !important;
+  }
+  .video-promo-control-btn {
+    transition: none !important;
+    transform: none !important;
+  }
+}

@@ -3,6 +3,7 @@
 import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { CheckCircle2, XCircle, Sparkles, AlertTriangle, MessageSquare, Clock } from 'lucide-react';
 import Image from 'next/image';
 
 function ConfirmarContent() {
@@ -53,7 +54,7 @@ function ConfirmarContent() {
       const data = await res.json();
       if (data.success) {
         setAppointment(data.appointment);
-        setActionMessage('¡Excelente! Confirmaste tu asistencia. Einstein está tranquilo. 😄');
+        setActionMessage('¡Excelente! Confirmaste tu asistencia. Einstein está tranquilo.');
       } else {
         setError(data.error);
       }
@@ -189,10 +190,10 @@ function ConfirmarContent() {
           }}
         >
           {isCanceled
-            ? '❌ Turno Cancelado'
+            ? <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}><XCircle size={28} color='#e74c3c' /> Turno Cancelado</span>
             : isConfirmed
-            ? '✅ ¡Asistencia Confirmada!'
-            : '🎉 ¡Turno Registrado!'}
+            ? <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}><CheckCircle2 size={28} color='#27ae60' /> ¡Asistencia Confirmada!</span>
+            : <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}><Sparkles size={28} color='var(--color-acento)' /> ¡Turno Registrado!</span>}
         </h1>
         <p style={{ color: '#576574', marginTop: '0.25rem', fontSize: '0.9rem' }}>
           Comprobante:{' '}
@@ -223,7 +224,7 @@ function ConfirmarContent() {
       {/* Error */}
       {error && (
         <div className="error-msg" role="alert">
-          ⚠️ {error}
+          <span style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem" }}><AlertTriangle size={15} /> {error}</span>
         </div>
       )}
 
@@ -319,7 +320,7 @@ function ConfirmarContent() {
             style={{ fontSize: '0.85rem' }}
           >
             <h4 style={{ marginBottom: '0.35rem', fontSize: '0.9rem' }}>
-              📱 Recordatorio por WhatsApp:
+              <span style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}><MessageSquare size={17} color="var(--color-principal)" /> Recordatorio por WhatsApp:</span>
             </h4>
             <p style={{ color: '#576574', marginBottom: '0.5rem' }}>
               Te enviaremos un mensaje al{' '}
@@ -328,7 +329,7 @@ function ConfirmarContent() {
               liberarse.
             </p>
             <p style={{ color: '#b7791f', fontSize: '0.82rem', fontWeight: '500' }}>
-              ⏰ Demoras mayores a 15 minutos tienen un adicional del 20%.
+              <span style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem" }}><Clock size={14} color="#b7791f" /> Demoras mayores a 15 minutos tienen un adicional del 20%.</span>
             </p>
           </div>
         )}
@@ -361,7 +362,7 @@ function ConfirmarContent() {
               disabled={isProcessing}
               className="btn-primario"
             >
-              {isProcessing ? 'Confirmando...' : '✅ Confirmar Asistencia'}
+              {isProcessing ? 'Confirmando...' : <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.45rem' }}><CheckCircle2 size={18} /> Confirmar Asistencia</span>}
             </button>
           )}
 
@@ -377,7 +378,7 @@ function ConfirmarContent() {
                 fontSize: '0.95rem',
               }}
             >
-              ✅ Asistencia ya confirmada
+              <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.45rem" }}><CheckCircle2 size={18} color="#155724" /> Asistencia ya confirmada</span>
             </div>
           )}
 

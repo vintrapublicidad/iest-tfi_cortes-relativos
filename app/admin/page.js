@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Key, Globe, Calendar, BarChart2, Users, CheckCircle, X, Search, Phone, Mail, Scissors, Check, MessageSquare, Lightbulb, AlertTriangle } from 'lucide-react';
 
 const ESTADO_COLORS = {
   confirmado: { bg: '#d4edda', text: '#155724', border: '#c3e6cb', label: 'Confirmado' },
@@ -274,7 +275,7 @@ export default function AdminPage() {
           <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {authError && (
               <div className="error-msg" style={{ margin: 0, textAlign: 'left' }}>
-                ⚠️ {authError}
+                <span style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem" }}><AlertTriangle size={15} /> {authError}</span>
               </div>
             )}
             <div style={{ textAlign: 'left' }}>
@@ -302,7 +303,7 @@ export default function AdminPage() {
               disabled={loading}
               style={{ marginTop: '0.5rem' }}
             >
-              {loading ? 'Verificando...' : 'Entrar al Panel 🔑'}
+              {loading ? 'Verificando...' : <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.45rem' }}><Key size={16} /> Entrar al Panel</span>}
             </button>
           </form>
 
@@ -379,7 +380,7 @@ export default function AdminPage() {
                 fontWeight: '600',
               }}
             >
-              🌐 Ver sitio
+              <span style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem" }}><Globe size={15} /> Ver sitio</span>
             </Link>
             <button
               onClick={handleLogout}
@@ -427,7 +428,7 @@ export default function AdminPage() {
               fontSize: '0.88rem',
             }}
           >
-            📋 Turnos ({appointments.length})
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}><Calendar size={15} /> Turnos ({appointments.length})</span>
           </button>
           <button
             onClick={() => setActiveTab('metricas')}
@@ -440,7 +441,7 @@ export default function AdminPage() {
               fontSize: '0.88rem',
             }}
           >
-            📊 Métricas y Reportes
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}><BarChart2 size={15} /> Métricas y Reportes</span>
           </button>
           <button
             onClick={() => setActiveTab('espera')}
@@ -466,7 +467,7 @@ export default function AdminPage() {
               fontSize: '0.88rem',
             }}
           >
-            💈 Barberos ({barbers.length})
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}><Users size={15} /> Barberos ({barbers.length})</span>
           </button>
           <button onClick={() => setActiveTab('config')} style={{ padding: '0.5rem 1rem', borderRadius: 'var(--radio-borde)', backgroundColor: activeTab === 'config' ? 'var(--color-principal)' : 'transparent', color: activeTab === 'config' ? 'white' : 'var(--color-principal)', fontWeight: '700', fontSize: '0.88rem' }}>Configuración WhatsApp</button>
         </div>
@@ -490,7 +491,7 @@ export default function AdminPage() {
               alignItems: 'center',
             }}
           >
-            <span>✅ {statusMsg}</span>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}><CheckCircle size={16} /> {statusMsg}</span>
             <button
               onClick={() => setStatusMsg('')}
               style={{ background: 'none', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}
@@ -518,7 +519,7 @@ export default function AdminPage() {
               <div style={{ flex: '1 1 220px' }}>
                 <input
                   type="text"
-                  placeholder="🔍 Buscar cliente, teléfono o ID..."
+                  placeholder="Buscar cliente, teléfono o ID..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="campo-input"
@@ -553,7 +554,7 @@ export default function AdminPage() {
                 className="tarjeta-turno"
                 style={{ textAlign: 'center', padding: '2.5rem 1rem', color: '#576574' }}
               >
-                <p style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>💈 No se encontraron turnos</p>
+                <div style={{ display: "flex", justifyContent: "center", marginBottom: "0.5rem" }}><Calendar size={32} color="#8395a7" /></div><p style={{ fontSize: "1.05rem", color: "#576574" }}>No se encontraron turnos</p>
                 <p style={{ fontSize: '0.85rem' }}>Prueba con otro filtro de búsqueda o estado.</p>
               </div>
             ) : (
@@ -606,7 +607,7 @@ export default function AdminPage() {
                             📞 <a href={`https://wa.me/${apt.cliente_telefono?.replace(/\D/g, '')}`} target="_blank" rel="noreferrer" style={{ textDecoration: 'underline' }}>
                               {apt.cliente_telefono}
                             </a>
-                            {apt.cliente_email && ` • ✉️ ${apt.cliente_email}`}
+                            {apt.cliente_email && <span style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem", marginLeft: "0.5rem" }}><Mail size={12} /> {apt.cliente_email}</span>}
                           </div>
                         </div>
 
@@ -639,11 +640,11 @@ export default function AdminPage() {
                       >
                         <div>
                           <span style={{ color: '#64748b', fontSize: '0.75rem', display: 'block' }}>Servicio</span>
-                          <strong>✂️ {apt.servicio_nombre}</strong>
+                          <span style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem" }}><Scissors size={14} color="var(--color-principal)" /> <strong>{apt.servicio_nombre}</strong></span>
                         </div>
                         <div>
                           <span style={{ color: '#64748b', fontSize: '0.75rem', display: 'block' }}>Peluquero</span>
-                          <strong>💈 {apt.peluquero_nombre || 'Cualquiera'}</strong>
+                          <span style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem" }}><Users size={14} color="var(--color-principal)" /> <strong>{apt.peluquero_nombre || "Cualquiera"}</strong></span>
                           {apt.peluquero_whatsapp && (
                             <a
                               href={`https://wa.me/${apt.peluquero_whatsapp.replace(/\\D/g, '')}`}
@@ -667,7 +668,7 @@ export default function AdminPage() {
                         </div>
                         <div>
                           <span style={{ color: '#64748b', fontSize: '0.75rem', display: 'block' }}>Fecha y Hora</span>
-                          <strong style={{ color: 'var(--color-principal)' }}>📅 {fechaFormatted}</strong>
+                          <span style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem" }}><Calendar size={14} color="var(--color-principal)" /> <strong style={{ color: "var(--color-principal)" }}>{fechaFormatted}</strong></span>
                         </div>
                       </div>
 
@@ -700,7 +701,7 @@ export default function AdminPage() {
                               borderRadius: 'var(--radio-borde)',
                             }}
                           >
-                            ✓ Confirmar
+                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}><Check size={13} strokeWidth={3} /> Confirmar</span>
                           </button>
                         )}
 
@@ -734,7 +735,7 @@ export default function AdminPage() {
                               borderRadius: 'var(--radio-borde)',
                             }}
                           >
-                            ✕ Cancelar
+                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}><X size={13} strokeWidth={2.5} /> Cancelar</span>
                           </button>
                         )}
 
@@ -799,7 +800,7 @@ export default function AdminPage() {
                   </div>
                 ) : (
                   <div className="tarjeta-turno" style={{ backgroundColor: 'rgba(255,255,255,0.95)', padding: '1rem' }}>
-                    <strong style={{ fontSize: '1rem', color: 'var(--color-principal)' }}>💈 {b.nombre}</strong>
+                    <span style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem" }}><Users size={16} /> <strong style={{ fontSize: "1rem", color: "var(--color-principal)" }}>{b.nombre}</strong></span>
                     <div style={{ fontSize: '0.85rem', color: '#475569' }}>{b.especialidad}</div>
                     {b.whatsapp && (
                       <a href={`https://wa.me/${b.whatsapp.replace(/\\D/g, '')}`} target="_blank" rel="noreferrer"
@@ -877,7 +878,7 @@ export default function AdminPage() {
             {/* Servicios Más Solicitados */}
             <div className="tarjeta-turno" style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)' }}>
               <h3 style={{ fontSize: '1.15rem', color: 'var(--color-principal)', marginBottom: '1rem' }}>
-                ✂️ Demanda por Servicio
+                <span style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}><Scissors size={18} /> Demanda por Servicio</span>
               </h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 {Object.entries(metrics.porServicio || {}).map(([nombre, cantidad]) => {
@@ -913,7 +914,7 @@ export default function AdminPage() {
               className="aviso"
               style={{ marginBottom: '1.25rem', backgroundColor: 'rgba(255, 255, 255, 0.95)' }}
             >
-              💡 <strong>Regla de negocio:</strong> Cuando un turno se cancela o se libera por falta de confirmación, se debe contactar al primer cliente en espera para ofrecerle el cupo disponible.
+              <span style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", verticalAlign: "middle" }}><Lightbulb size={16} color="var(--color-acento)" /></span><strong>Regla de negocio:</strong> Cuando un turno se cancela o se libera por falta de confirmación, se debe contactar al primer cliente en espera para ofrecerle el cupo disponible.
             </div>
 
             {waitlist.length === 0 ? (
