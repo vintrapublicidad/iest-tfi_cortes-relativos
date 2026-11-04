@@ -2,6 +2,14 @@
 
 import { useMemo } from 'react';
 import { Info, Calendar as CalendarIcon, Clock } from 'lucide-react';
+import {
+  BUFFER_MINUTES,
+  getAppointmentBusinessDate,
+  MIN_HOURS_ADVANCE,
+  OPERATING_HOURS,
+} from '@/lib/validaciones.js';
+
+export { BUFFER_MINUTES, OPERATING_HOURS };
 
 /**
  * Horarios de atención:
@@ -9,16 +17,6 @@ import { Info, Calendar as CalendarIcon, Clock } from 'lucide-react';
  * Turno Tarde/Noche: 15:00 a 23:00 (último turno inicia 22:30 para finalizar 23:00)
  * Intervalos de 30 minutos (15 min de margen/buffer entre servicios asegurado dinámicamente)
  */
-export const OPERATING_HOURS = [
-  // Turno mañana: 09:00 a 13:00
-  '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
-  // Turno tarde: 15:00 a 23:00
-  '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30',
-  '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30'
-];
-
-export const BUFFER_MINUTES = 15; // Margen de seguridad entre turnos por demoras
-
 /**
  * Convierte "HH:mm" a minutos desde las 00:00
  */
@@ -83,7 +81,7 @@ export default function Calendario({
     return OPERATING_HOURS.map((timeStr) => {
       const slotDateTime = new Date(`${selectedDate}T${timeStr}:00`);
       const diffHours = (slotDateTime.getTime() - now.getTime()) / (1000 * 60 * 60);
-      const isTooSoon = diffHours < 2;
+      const isTooSoon = diffHours < MIN_HOURS_ADVANCE;
 
       const slotStartMinutes = timeToMinutes(timeStr);
       // El bloque reservado incluye la duración del corte + ventana de 15 min de amortiguación
@@ -95,7 +93,7 @@ export default function Calendario({
         if (selectedBarberId && apt.peluquero_id && apt.peluquero_id !== selectedBarberId) return false;
 
         const aptTime = new Date(apt.fecha_hora);
-        const aptDateStr = aptTime.toISOString().split('T')[0];
+        const aptDateStr = getAppointmentBusinessDate(aptTime);
         if (aptDateStr !== selectedDate) return false;
 
         const aptHourStr = aptTime.toTimeString().slice(0, 5);

@@ -41,7 +41,7 @@ El sistema permitirá:
 - Consultar peluqueros y disponibilidad.
 - Seleccionar fecha y hora.
 - Solicitar un turno con nombre y WhatsApp.
-- Respetar una anticipación mínima de 10 horas.
+- Respetar una anticipación mínima de 2 horas.
 - Enviar recordatorio por WhatsApp.
 - Registrar la confirmación.
 - Cancelar un turno.

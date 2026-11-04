@@ -35,7 +35,7 @@
 
 ## Etapa 4: Lógica de Turnos y Reglas de Negocio
 - [x] Implementar la consulta dinámica de disponibilidad por día y barbero.
-- [x] Validar la anticipación mínima estricta de 10 horas (`lib/validaciones.js`).
+- [x] Validar la anticipación mínima estricta de 2 horas (`lib/validaciones.js`).
 - [x] Configurar horarios de atención: Martes a Sábados (09 a 13 y 15 a 23 hs).
 - [x] Implementar ventana de amortiguación obligatoria de 15 minutos entre turnos consecutivos.
 - [x] Evitar reservas duplicadas y solapamientos en cliente y servidor.

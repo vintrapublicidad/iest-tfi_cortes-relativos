@@ -21,7 +21,7 @@ Este documento condensa el contexto acumulado, las decisiones de arquitectura de
    - Turno Mañana: `09:00` a `13:00` hs (último turno disponible `12:30` hs).
    - Turno Tarde/Noche: `15:00` a `23:00` hs (último turno disponible `22:30` hs).
 2. **Anticipación Mínima**:
-   - Los turnos deben reservarse con al menos **10 horas de antelación**.
+   - Los turnos deben reservarse con al menos **2 horas de antelación**.
 3. **Ventana de Amortiguación entre Servicios (Buffer)**:
    - Todo servicio incluye una ventana obligatoria de **15 minutos** posterior a su duración estimada para permitir higiene, desinfección de herramientas y absorber eventuales demoras del cliente anterior:
      $$\text{Bloque Reservado} = \text{Hora Inicio} + \text{Duración Servicio} + 15\text{ minutos}$$

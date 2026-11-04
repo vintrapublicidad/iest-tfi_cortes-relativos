@@ -25,7 +25,7 @@ Debe permitir:
 - Seleccionar un peluquero.
 - Visualizar horarios disponibles.
 - Diferenciar horarios disponibles de ocupados.
-- Mostrar la anticipación mínima de 10 horas.
+- Mostrar la anticipación mínima de 2 horas.
 
 ### Reserva
 

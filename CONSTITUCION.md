@@ -20,11 +20,11 @@ Esta Constitución establece los principios fundamentales, inquebrantables y com
 
 ### Principio 4: Rigor en la Lógica de Negocio y Doble Validación (Client & Server)
 * **Enunciado**: Las restricciones operativas de la barbería deben garantizarse obligatoriamente en el servidor, independientemente de las validaciones en la interfaz de usuario.
-* **Criterio Comprobable**: Las reservas requieren al menos 10 horas de anticipación cronológica. La ventana de amortiguación de 15 minutos entre turnos debe verificarse matemáticamente antes de insertar cualquier registro en la base de datos, impidiendo solapamientos horarios de un mismo peluquero.
+* **Criterio Comprobable**: Las reservas requieren al menos 2 horas de anticipación cronológica. La ventana de amortiguación de 15 minutos entre turnos debe verificarse matemáticamente antes de insertar cualquier registro en la base de datos, impidiendo solapamientos horarios de un mismo peluquero.
 
 ### Principio 5: Privacidad, Seguridad y Protección de Datos
 * **Enunciado**: La información sensible del cliente (número telefónico, correo y citas) y los secretos de configuración del negocio deben tratarse bajo el principio de menor privilegio.
-* **Criterio Comprobable**: Ningún token, contraseña administrativa o cadena de conexión a base de datos debe ser expuesta al cliente o incluida en el repositorio Git. Toda variable de entorno crítica se aísla en el backend.
+* **Criterio Comprobable**: Ningún token o cadena de conexión a base de datos debe exponerse al cliente o incluirse en el repositorio Git. La contraseña administrativa `einstein123` se conserva únicamente como credencial temporal de demostración académica y debe reemplazarse antes del uso real en producción. Toda variable de entorno crítica se aísla en el backend.
 
 ### Principio 6: Respeto a Estándares Web, Rendimiento y Accesibilidad (WCAG)
 * **Enunciado**: Las animaciones, interacciones y transiciones deben enriquecer la experiencia sin degradar la fluidez del dispositivo ni perjudicar a usuarios con sensibilidades sensoriales.

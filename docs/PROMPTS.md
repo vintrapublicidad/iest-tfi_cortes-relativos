@@ -63,3 +63,31 @@ A continuación se documentan tres errores reales y críticos cometidos por los 
   $$\text{Intervalo A: } [\text{Inicio}_A, \text{Inicio}_A + \text{Duración}_A + 15\text{m})$$  
   $$\text{Intervalo B: } [\text{Inicio}_B, \text{Inicio}_B + \text{Duración}_B + 15\text{m})$$  
   Si ambos intervalos se cruzan para el mismo profesional, la reserva se bloquea tanto en el frontend visual (`components/Calendario.js`) como en la validación del servidor (`lib/data.js`).
+
+---
+
+## 3. Actividad 2 — Funcionalidad 1: Reservas y disponibilidad
+
+### Decisión de negocio confirmada
+El responsable del proyecto confirmó que el requisito vigente es una anticipación mínima de **2 horas**. Las referencias anteriores a 10 horas eran documentación desactualizada. Una reserva exactamente a 2 horas satisface el mínimo; el servidor continúa validando las demás condiciones.
+
+### Prompt utilizado
+> “Corregir y completar el sistema de reservas para cumplir con la regla vigente de 2 horas, validar días y horarios de atención, evitar colisiones del mismo peluquero incluyendo los 15 minutos de amortiguación, documentar EARS y criterios de aceptación, y probar la validación del servidor independientemente del navegador.”
+
+### Cambios realizados
+- Se alinearon con el requisito vigente las instrucciones del agente, Constitución, contexto, requerimientos, especificación EARS, diseño, tareas, seguridad, README y memoria del proyecto.
+- Se centralizaron los horarios admitidos y el buffer para compartirlos entre calendario y servidor.
+- El servidor ahora rechaza días cerrados e inicios fuera de las franjas de atención, y usa la fecha de negocio de Argentina al consultar turnos.
+- Se añadieron pruebas para el límite de 2 horas, horarios, días, validación del servidor, colisiones por peluquero y amortiguación.
+- Se documentó `einstein123` como credencial temporal de demostración académica, sin cambiarla. Debe reemplazarse antes de un uso real en producción.
+- No se cambió la plataforma de despliegue ni se modificó el estado de las tareas.
+
+### Verificaciones ejecutadas
+- `npm test` con `NODE_OPTIONS=--test-isolation=none`: **9 pruebas aprobadas, 0 fallidas**. La opción evita que el sandbox bloquee el proceso hijo del runner.
+- `npx eslint components/Calendario.js lib/data.js lib/validaciones.js test/turnos.test.js`: **aprobado**.
+- `npm run lint`: **falló** por errores preexistentes en `app/admin/page.js`, `app/confirmar/page.js`, `components/Footer.js` y `components/VideoPromocional.js`; quedaron además advertencias de dependencias de hooks y exportación en otros archivos no relacionados.
+- `npm run build`: el intento normal compiló y luego el sandbox bloqueó un proceso hijo (`spawn EPERM`). Se ejecutó nuevamente con una configuración temporal local (`experimental.workerThreads: true`, `cpus: 1`), que se restauró al finalizar; **la compilación y generación de páginas terminaron correctamente**.
+- La instalación estándar `npm ci` también encontró `spawn EPERM` en scripts de instalación; `npm ci --ignore-scripts` terminó correctamente. npm reportó 18 vulnerabilidades moderadas en el árbol instalado.
+
+### Limitaciones de verificación
+La verificación se realizó sobre una copia temporal reconstruida desde los archivos de texto de la rama. Los recursos binarios no se descargaron. No se pudo ejecutar una operación Git local autenticada desde este entorno.

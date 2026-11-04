@@ -26,6 +26,10 @@ No utilizar NEXT_PUBLIC_ para secretos.
 
 El archivo .env.local no debe subirse al repositorio.
 
+## Credencial administrativa de demostración
+
+La contraseña `einstein123` se conserva temporalmente como credencial de demostración académica. No debe considerarse segura para uso real: deberá reemplazarse antes de utilizar el sistema en producción.
+
 ## Validaciones
 
 Los datos deben validarse en el servidor, aunque también exista validación en el navegador.
@@ -39,7 +43,7 @@ Validar como mínimo:
 - Fecha.
 - Hora.
 - Disponibilidad real.
-- Anticipación mínima de 10 horas.
+- Anticipación mínima de 2 horas.
 
 ## Disponibilidad
 

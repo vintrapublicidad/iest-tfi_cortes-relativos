@@ -6,9 +6,16 @@ import {
   validatePhoneNumber,
   validateEmail,
   validateAppointmentTime,
+  validateAppointmentOperatingHours,
   validateAppointmentStatus,
-  MIN_HOURS_ADVANCE
+  validateServerAppointmentTime,
+  appointmentIntervalsOverlap,
+  hasAppointmentConflict,
+  getAppointmentBusinessDate,
+  MIN_HOURS_ADVANCE,
+  BUFFER_MINUTES
 } from '../lib/validaciones.js';
+import { createAppointment } from '../lib/data.js';
 
 test('1. Validación de Nombre de Cliente', () => {
   assert.equal(validateClientName('').isValid, false, 'Nombre vacío debe ser inválido');
@@ -31,18 +38,16 @@ test('3. Validación de Email Opcional', () => {
   assert.equal(validateEmail('test@peluqueria.com').isValid, true, 'Email correcto es válido');
 });
 
-test('4. Validación de Anticipación Mínima (2 Horas)', () => {
-  const ahora = new Date();
+test('4. Anticipación mínima: rechaza menos de 2 h y acepta el límite y más', () => {
+  assert.equal(MIN_HOURS_ADVANCE, 2);
+  const ahora = new Date('2026-11-04T07:00:00-03:00');
+  const antesDelLimite = new Date(ahora.getTime() + (2 * 60 * 60 * 1000) - 1).toISOString();
+  const enElLimite = new Date(ahora.getTime() + 2 * 60 * 60 * 1000).toISOString();
+  const despuesDelLimite = new Date(ahora.getTime() + (2 * 60 * 60 * 1000) + 1).toISOString();
 
-  // Turno dentro de 1 hora (debe fallar)
-  const turnoMuyPronto = new Date(ahora.getTime() + 1 * 60 * 60 * 1000).toISOString();
-  const resFallo = validateAppointmentTime(turnoMuyPronto);
-  assert.equal(resFallo.isValid, false, 'Turno con 1 h de anticipación debe ser rechazado');
-
-  // Turno dentro de 5 horas (debe pasar)
-  const turnoValido = new Date(ahora.getTime() + 5 * 60 * 60 * 1000).toISOString();
-  const resExito = validateAppointmentTime(turnoValido);
-  assert.equal(resExito.isValid, true, 'Turno con 5 hs de anticipación debe ser aceptado');
+  assert.equal(validateAppointmentTime(antesDelLimite, MIN_HOURS_ADVANCE, ahora).isValid, false);
+  assert.equal(validateAppointmentTime(enElLimite, MIN_HOURS_ADVANCE, ahora).isValid, true);
+  assert.equal(validateAppointmentTime(despuesDelLimite, MIN_HOURS_ADVANCE, ahora).isValid, true);
 });
 
 test('5. Validación de Estados de Turno Permitidos', () => {
@@ -52,28 +57,57 @@ test('5. Validación de Estados de Turno Permitidos', () => {
   assert.equal(validateAppointmentStatus('estado_inventado').isValid, false, 'Estado desconocido debe rechazarse');
 });
 
-test('6. Validación Matemática de Ventana de 15 Minutos de Amortiguación (Buffer)', () => {
-  // Simulación de dos turnos para verificar el algoritmo de colisión
-  const BUFFER_MINUTOS = 15;
-  const duracionCorte = 30; // 30 minutos
+test('6. Horarios permitidos y días de atención', () => {
+  assert.equal(validateAppointmentOperatingHours('2026-11-04T09:00:00-03:00').isValid, true);
+  assert.equal(validateAppointmentOperatingHours('2026-11-04T22:30:00-03:00').isValid, true);
+  assert.equal(validateAppointmentOperatingHours('2026-11-04T08:30:00-03:00').isValid, false);
+  assert.equal(validateAppointmentOperatingHours('2026-11-04T13:00:00-03:00').isValid, false);
+  assert.equal(validateAppointmentOperatingHours('2026-11-04T14:30:00-03:00').isValid, false);
+  assert.equal(validateAppointmentOperatingHours('2026-11-04T23:00:00-03:00').isValid, false);
+  assert.equal(validateAppointmentOperatingHours('2026-11-08T10:00:00-03:00').isValid, false, 'Domingo debe rechazarse');
+  assert.equal(validateAppointmentOperatingHours('2026-11-09T10:00:00-03:00').isValid, false, 'Lunes debe rechazarse');
+});
 
-  // Turno A: Inicia 10:00 (600 min). Con buffer termina a 10:45 (645 min).
-  const inicioA = 10 * 60;
-  const totalFinA = inicioA + duracionCorte + BUFFER_MINUTOS; // 645 min
+test('7. El servidor valida la anticipación y los horarios sin depender del calendario', () => {
+  const ahora = new Date('2026-11-04T07:00:00-03:00');
+  assert.equal(validateServerAppointmentTime('2026-11-04T09:00:00', ahora).isValid, true);
+  assert.equal(validateServerAppointmentTime('2026-11-04T09:30:00', ahora).isValid, true);
+  assert.equal(validateServerAppointmentTime('2035-07-04T14:30:00-03:00').isValid, false);
+  assert.equal(getAppointmentBusinessDate('2035-07-08T01:30:00Z'), '2035-07-07');
+});
 
-  // Intento de Turno B a las 10:30 (630 min).
-  // Aunque el corte A terminó físicamente a las 10:30, la ventana de 15 min ocupa hasta las 10:45.
-  const inicioB_solapado = 10 * 60 + 30; // 630 min
-  const totalFinB_solapado = inicioB_solapado + duracionCorte + BUFFER_MINUTOS; // 675 min
+test('8. La capa de reserva del servidor rechaza solicitudes con menos de 2 horas', async () => {
+  await assert.rejects(
+    createAppointment({
+      clientName: 'Cliente de prueba',
+      clientPhone: '+5493837420000',
+      serviceId: 1,
+      barberId: 1,
+      dateTime: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+    }),
+    /al menos 2 horas de anticipación/
+  );
+});
 
-  const hayConflictoSolapado = inicioB_solapado < totalFinA && totalFinB_solapado > inicioA;
-  assert.equal(hayConflictoSolapado, true, 'El turno de las 10:30 debe colisionar con el buffer del turno de las 10:00');
+test('9. Colisiones respetan duración, peluquero, estados y amortiguación', () => {
+  const activeAppointment = {
+    fecha_hora: '2035-07-03T10:00:00-03:00',
+    duracion_minutos: 30,
+    peluquero_id: 1,
+    estado: 'pendiente',
+  };
 
-  // Intento de Turno C a las 11:00 (660 min).
-  // Ya pasaron los 45 min del bloque anterior (10:00 a 10:45).
-  const inicioC_libre = 11 * 60; // 660 min
-  const totalFinC_libre = inicioC_libre + duracionCorte + BUFFER_MINUTOS; // 705 min
-
-  const hayConflictoLibre = inicioC_libre < totalFinA && totalFinC_libre > inicioA;
-  assert.equal(hayConflictoLibre, false, 'El turno de las 11:00 debe quedar libre tras superar la ventana de amortiguación');
+  assert.equal(BUFFER_MINUTES, 15);
+  assert.equal(appointmentIntervalsOverlap('2035-07-03T10:30:00-03:00', 30, activeAppointment.fecha_hora, 30), true);
+  assert.equal(appointmentIntervalsOverlap('2035-07-03T10:45:00-03:00', 30, activeAppointment.fecha_hora, 30), false);
+  assert.equal(appointmentIntervalsOverlap('2035-07-03T09:30:00-03:00', 15, activeAppointment.fecha_hora, 30), false);
+  assert.equal(hasAppointmentConflict({
+    start: '2035-07-03T10:30:00-03:00', duration: 30, barberId: 1
+  }, [activeAppointment]), true);
+  assert.equal(hasAppointmentConflict({
+    start: '2035-07-03T10:30:00-03:00', duration: 30, barberId: 2
+  }, [activeAppointment]), false);
+  assert.equal(hasAppointmentConflict({
+    start: '2035-07-03T10:30:00-03:00', duration: 30, barberId: 1
+  }, [{ ...activeAppointment, estado: 'cancelado' }]), false);
 });

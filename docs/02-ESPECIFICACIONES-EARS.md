@@ -31,7 +31,29 @@ impidiendo que otros turnos inicien dentro de dicho lapso.
 SI un cliente intenta reservar un horario que interfiere con el intervalo de otro turno activo del mismo barbero (incluyendo sus 15 minutos de amortiguación), ENTONCES el sistema DEBE rechazar la petición con un error HTTP 400 y el mensaje *"El horario seleccionado ya no se encuentra disponible. Por favor elegí otro horario."*
 
 ### EARS-F1-06 (Unwanted behavior - Anticipación insuficiente)
-SI la hora seleccionada para el turno se sitúa a menos de 10 horas de la hora actual del servidor, ENTONCES el sistema DEBE invalidar el slot y exigir un mínimo de 10 horas de anticipación.
+SI la hora seleccionada para el turno se sitúa a menos de 2 horas de la hora actual del servidor, ENTONCES el sistema DEBE invalidar el slot y exigir un mínimo de 2 horas de anticipación. Una solicitud exactamente a 2 horas cumple el límite mínimo.
+
+### EARS-F1-07 (Unwanted behavior - Día u horario fuera de atención)
+SI una solicitud de reserva indica un domingo, lunes o una hora de inicio fuera de las franjas de atención, ENTONCES el servidor DEBE rechazarla, aunque la solicitud no provenga del calendario de la interfaz.
+
+### EARS-F1-08 (Ubiquitous - Zona horaria de la operación)
+El sistema DEBE interpretar los días y horarios de atención en la zona `America/Argentina/Buenos_Aires`.
+
+### Criterios de aceptación de la Funcionalidad 1
+- Una solicitud con menos de 2 horas de anticipación es rechazada por el servidor.
+- Una solicitud exactamente a 2 horas cumple la anticipación mínima; puede continuar únicamente si también respeta días, horarios y disponibilidad.
+- Una solicitud con más de 2 horas puede continuar si supera las demás validaciones.
+- El servidor rechaza domingos, lunes y horas de inicio fuera de las franjas definidas, incluso si se llama a la API directamente.
+- Un turno activo del mismo peluquero bloquea intervalos superpuestos, sumando la duración del servicio y 15 minutos de amortiguación.
+- Los turnos cancelados o liberados no bloquean el horario.
+- Si dos intervalos se tocan únicamente en un extremo, no se consideran solapados.
+
+### Casos límite de la Funcionalidad 1
+- Se comprueba el límite de 2 horas con un reloj de referencia fijo para que el test no dependa del tiempo de ejecución.
+- Se comprueban días cerrados y los extremos de cada franja, incluidos 12:30 y 22:30 como últimos inicios permitidos.
+- Se comprueba una solicitud fuera de la franja del mediodía.
+- La duración completa de un servicio que comienza en el último horario disponible no se limita adicionalmente: las especificaciones existentes definen el último horario de inicio, pero no exigen terminar antes del cierre.
+- Si no se selecciona peluquero, se conserva el comportamiento existente de comprobar todos los turnos del día; esta regla no se cambia en esta actividad.
 
 ---
 

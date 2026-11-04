@@ -7,7 +7,7 @@
 | RF01 | Mostrar los servicios disponibles con duración y precio. | Alta |
 | RF02 | Mostrar los peluqueros disponibles. | Alta |
 | RF03 | Mostrar un calendario con horarios disponibles. | Alta |
-| RF04 | Permitir seleccionar un día y horario con al menos 10 horas de anticipación. | Alta |
+| RF04 | Permitir seleccionar un día y horario con al menos 2 horas de anticipación. | Alta |
 | RF05 | Permitir seleccionar peluquero y servicio. | Alta |
 | RF06 | Registrar nombre y número de WhatsApp del cliente. | Alta |
 | RF07 | Confirmar la solicitud de turno y mostrar sus datos. | Alta |
@@ -34,7 +34,7 @@
 
 ## Reglas de negocio
 
-- La reserva requiere una anticipación mínima de 10 horas.
+- La reserva requiere una anticipación mínima de 2 horas.
 - Un horario ocupado no puede ser reservado por otro cliente.
 - El turno debe asociarse a un servicio y, cuando corresponda, a un peluquero.
 - El recordatorio debe enviarse antes del horario del turno.
@@ -50,7 +50,10 @@ Como cliente de la peluquería, quiero consultar los horarios disponibles y rese
 
 - El cliente puede consultar servicios y disponibilidad.
 - No puede seleccionar un horario ocupado.
-- No puede reservar con menos de 10 horas de anticipación.
+- No puede reservar con menos de 2 horas de anticipación.
+- Una solicitud exactamente a 2 horas cumple el mínimo de anticipación y continúa sujeta a las demás validaciones.
+- El servidor rechaza solicitudes en días u horarios fuera de atención, aunque se envíen directamente a la API.
+- El servidor rechaza solapamientos del mismo peluquero considerando la duración del servicio y los 15 minutos de amortiguación.
 - Debe ingresar nombre y WhatsApp.
 - Antes de confirmar, debe visualizar las condiciones importantes.
 - Al completar la reserva, debe recibir la confirmación correspondiente.

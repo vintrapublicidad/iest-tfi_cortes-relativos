@@ -24,8 +24,8 @@ Cortes Relativos es un sitio web para gestionar y reservar turnos de una peluque
 - Trabajar de a una tarea de 08-TAREAS.md por vez.
 - El código debe escribirse en inglés y los textos visibles del sitio en español.
 - Las validaciones importantes deben realizarse también en el servidor.
-- Las credenciales, tokens y datos sensibles nunca deben exponerse al navegador.
-- El sistema debe respetar la anticipación mínima de 10 horas para reservar.
+- Las credenciales, tokens y datos sensibles nunca deben exponerse al navegador. La contraseña administrativa `einstein123` es una excepción temporal para demostración académica: no modificarla durante esta actividad y reemplazarla antes del uso real en producción.
+- El sistema debe respetar la anticipación mínima de 2 horas para reservar.
 - El sistema debe contemplar el recordatorio por WhatsApp y el proceso de confirmación definido en los requerimientos.
 - No agregar funcionalidades fuera del alcance sin documentarlas y justificarlas previamente.
 - Mantener coherencia entre identidad, requerimientos, arquitectura, datos y diseño de interfaz.
