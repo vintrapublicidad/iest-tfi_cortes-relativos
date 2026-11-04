@@ -1,5 +1,9 @@
 # Plan de Tareas del Proyecto (08-TAREAS.md)
 
+## Cómo leer el estado de las tareas
+
+Las Etapas 1 a 7 siguientes corresponden al plan histórico del proyecto. Sus casillas marcadas reflejan el estado histórico de esas tareas y no son el seguimiento de las tareas específicas realizadas para la Actividad 2.
+
 ## Etapa 1: Preparación y Arnés
 - [x] Definir la versión final del logo.
 - [x] Crear los recursos de marca en la carpeta `marca/`.
@@ -63,3 +67,14 @@
 - [x] Sincronizar repositorio remoto con GitHub (`git push origin main`).
 - [ ] Vincular repositorio con plataforma Vercel para URL pública.
 - [ ] Ejecutar auditoría Lighthouse para verificar puntaje ≥ 80 en las cuatro categorías.
+
+## Actividad 2 — Funcionalidad 1: Reservas y disponibilidad
+
+Las siguientes tareas corresponden exclusivamente a la implementación revisada de esta funcionalidad. Cada estado incluye su evidencia; el resultado de lint general se mantiene registrado aunque haya fallado en archivos ajenos a esta funcionalidad.
+
+| Tarea específica | Estado | Evidencia |
+| :--- | :--- | :--- |
+| Alinear la anticipación mínima oficial en la Constitución, instrucciones, requerimientos, EARS, diseño y documentación relacionada: 2 horas. | Completada | Commit de implementación `4a8b05c`; decisión y archivos enumerados en `docs/PROMPTS.md`. |
+| Validar en el servidor días y horarios de atención, y aplicar las colisiones por peluquero con 15 minutos de amortiguación. | Completada | `lib/data.js`, `lib/validaciones.js`; pruebas de horarios y colisiones en `test/turnos.test.js`. |
+| Verificar límite menor, exacto y mayor a 2 horas, reglas horarias y cálculo de colisiones. | Completada | `npm test` con `NODE_OPTIONS=--test-isolation=none`: 9 aprobadas, 0 fallidas; ESLint de los cuatro archivos JS modificados aprobado. |
+| Registrar resultados, limitaciones del entorno y decisiones de la actividad. | Completada | Sección “Actividad 2 — Funcionalidad 1” de `docs/PROMPTS.md`; el lint general y el build con worker temporal tienen allí sus resultados detallados. |

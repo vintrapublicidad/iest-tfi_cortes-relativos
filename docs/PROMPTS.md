@@ -11,6 +11,7 @@
 * **Prompt del Desarrollador**:
   > *"Diseñemos el backend de turnos para una barbería en Tinogasta. Debe permitir consultar disponibilidad, respetar 10 hs mínimas de anticipación, soportar barberos independientes y prever resiliencia si la base de datos PostgreSQL no está conectada localmente."*
 * **Resultado**: Implementación de `lib/data.js` con soporte híbrido (PostgreSQL nativo con fallback a almacenamiento en memoria ordenado por timestamps), evitando que la app colapse en desarrollo o despliegues estáticos.
+* **Nota de vigencia**: La mención de “10 hs mínimas de anticipación” en este prompt es un registro histórico de una versión anterior del requisito. La regla oficial vigente del negocio es un mínimo de **2 horas**, confirmado por el responsable del proyecto y actualizado en la documentación normativa y el código.
 
 ### Fase 2: Configuración de WhatsApp y Notificación Dual
 * **Prompt del Desarrollador**:
